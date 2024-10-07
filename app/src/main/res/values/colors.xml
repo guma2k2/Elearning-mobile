@@ -2,4 +2,21 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="green">#4CAF50</color>
+    <color name="main_color">#F0739D</color>
+    <color name="grey">#A9A9A9</color>
+    <color name="redcart">#DF0000</color>
+    <color name="border">#CACACA</color>
+    <color name="gray">#A8A4A4</color>
+    <color name="primary">#f1729d</color>
+
+    <color name="colorPrimary">#306B34</color>
+    <color name="colorSecondary">#FF6663</color>
+
+    <color name="colorPrimary2">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="colorNavIcon">#dae9f6</color>
+    <color name="colorNavText">#01294b</color>
 </resources>
