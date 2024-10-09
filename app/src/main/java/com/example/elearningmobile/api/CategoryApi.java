@@ -1,6 +1,6 @@
 package com.example.elearningmobile.api;
 
-import com.example.elearningmobile.model.course.CourseListGetVM;
+import com.example.elearningmobile.model.category.CategoryListGetVM;
 import com.example.elearningmobile.ultity.Constants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,7 +15,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-public interface OrderApi {
+public interface CategoryApi {
+
 
     Gson gson = new GsonBuilder().create();
     OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -23,13 +24,13 @@ public interface OrderApi {
             .readTimeout(30, TimeUnit.MINUTES.SECONDS)
             .writeTimeout(30, TimeUnit.MINUTES.SECONDS)
             .build();
-    OrderApi orderApi = new Retrofit.Builder()
-            .baseUrl(Constants.ORDER_URL)
+    CategoryApi categoryApi = new Retrofit.Builder()
+            .baseUrl(Constants.CATEGORY_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient)
             .build().
-            create(OrderApi.class);
+            create(CategoryApi.class);
+    @GET("/parents")
+    Call<List<CategoryListGetVM>> getCategoryParent();
 
-    @GET("/beseller-courses")
-    Call<List<CourseListGetVM>> getBestSellerCourse();
 }
