@@ -20,6 +20,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="instructor name"/>
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:background="@android:color/transparent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4.0"
+
+            android:textSize="16sp"
+            android:layout_marginEnd="8dp"
+            android:textColor="@android:color/black"/>
+
+        <RatingBar
+            android:layout_width="230dp"
+            android:layout_height="40dp"
+            android:scaleX="0.4"
+            android:scaleY="0.4"
+            android:numStars="5"
+            android:stepSize="1"
+            android:transformPivotX="12dp"
+            android:transformPivotY="20dp"
+            android:isIndicator="true"
+            android:rating="4.2"
+            android:max="5"
+            android:theme="@style/RatingBar"/>
+            />
+
+    </LinearLayout>
     <TextView
         android:id="@+id/tv_coursePrice"
         android:layout_width="match_parent"
