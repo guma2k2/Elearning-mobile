@@ -2,6 +2,8 @@ package com.example.elearningmobile.variable;
 
 import android.app.Application;
 
+import com.example.elearningmobile.model.AuthenticationResponse;
+import com.example.elearningmobile.model.AuthenticationVm;
 import com.example.elearningmobile.model.UserVm;
 
 public class GlobalVariable extends Application {
@@ -16,6 +18,13 @@ public class GlobalVariable extends Application {
         this.isLoggedIn = isLoggedIn;
         this.auth = auth;
         this.access_token = access_token;
+    }
+
+
+    public void setAuthentication(AuthenticationVm authenticationResponse) {
+        this.isLoggedIn = true;
+        this.auth = authenticationResponse.getUser();
+        this.access_token = authenticationResponse.getToken();
     }
 
     public boolean isLoggedIn() {

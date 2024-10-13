@@ -26,32 +26,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Đăng nhập bằng số điện thoại"
+                android:text="Đăng nhập bằng email"
                 android:textSize="24sp"
                 android:textStyle="bold"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Nhập số điện thoại và mật khẩu tài khoản Siki"/>
+                android:text="Nhập số điện thoại và mật khẩu tài khoản Udemy"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Số điện thoại"
-                android:id="@+id/phone_number"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:id="@+id/ed_email_login"
                 android:layout_marginBottom="10dp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColor="@color/redcart"
                 android:textSize="12dp"
-                android:id="@+id/phone_number_error_message"
+                android:id="@+id/tv_email_login"
                 />
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Mật khẩu"
-                android:id="@+id/password"
+                android:id="@+id/ed_password_login"
                 android:layout_marginBottom="20dp"
                 android:inputType="textPassword"/>
             <TextView
@@ -72,9 +73,9 @@
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
-                android:id="@+id/submit_btn"/>
+                android:id="@+id/btn_login"/>
             <Button
-                android:id="@+id/forgot_pass_btn"
+                android:id="@+id/btn_forgotPassword_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Quên mật khẩu?"
@@ -91,7 +92,7 @@
                     android:text="Chưa có tài khoản?"
                     android:layout_marginRight="8px"/>
                 <Button
-                    android:id="@+id/create_new_account_btn"
+                    android:id="@+id/btn_register_home"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tạo tài khoản"
