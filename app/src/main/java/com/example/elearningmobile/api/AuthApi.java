@@ -2,6 +2,7 @@ package com.example.elearningmobile.api;
 
 import com.example.elearningmobile.model.AuthenticationPostVm;
 import com.example.elearningmobile.model.AuthenticationResponse;
+import com.example.elearningmobile.model.AuthenticationVm;
 import com.example.elearningmobile.model.RegistrationPostVm;
 import com.example.elearningmobile.ultity.Constants;
 import com.google.gson.Gson;
@@ -31,8 +32,8 @@ public interface AuthApi {
             create(AuthApi.class);
 
     @POST("/login")
-    Call<AuthenticationResponse> login(@Body AuthenticationPostVm authenticationPostVm);
+    Call<AuthenticationVm> login(@Body AuthenticationPostVm authenticationPostVm);
 
     @POST("/register")
-    Call<AuthenticationResponse> register(@Body RegistrationPostVm registrationPostVm);
+    Call<AuthenticationVm> register(@Body RegistrationPostVm registrationPostVm);
 }

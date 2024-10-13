@@ -4,18 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="400dp">
     <ImageView
-        android:id="@+id/course_home_image_iv"
+        android:id="@+id/iv_course_home"
         android:src="@drawable/course_image_test"
         android:layout_width="wrap_content"
         android:layout_height="200dp"/>
     <TextView
-        android:id="@+id/tv_courseTitle"
+        android:id="@+id/tv_courseTitle_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:text="course title"/>
     <TextView
-        android:id="@+id/tv_courseInstructor"
+        android:id="@+id/tv_courseInstructor_home"
         android:textSize="15sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,6 +29,7 @@
         android:background="@android:color/transparent">
 
         <TextView
+            android:id="@+id/tv_courseRating_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="4.0"
@@ -38,6 +39,7 @@
             android:textColor="@android:color/black"/>
 
         <RatingBar
+            android:id="@+id/rb_courseRating_home"
             android:layout_width="230dp"
             android:layout_height="40dp"
             android:scaleX="0.4"
@@ -54,7 +56,7 @@
 
     </LinearLayout>
     <TextView
-        android:id="@+id/tv_coursePrice"
+        android:id="@+id/tv_coursePrice_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
