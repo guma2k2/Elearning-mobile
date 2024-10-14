@@ -4,10 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.CartFragment">
-
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rc_cart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="hello_blank_fragment" />
-
+        android:layout_height="wrap_content"/>
 </FrameLayout>
