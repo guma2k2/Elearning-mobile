@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
             }else if (fragment == R.id.nav_profile){
                 redirectProfileFragment();
                 bottom_navigation.setSelectedItemId(R.id.nav_profile);
+            } else if (fragment == R.id.nav_learning){
+                redirectLearningFragment();
+                bottom_navigation.setSelectedItemId(R.id.nav_learning);
             }
         }
 
@@ -58,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if(item.getItemId() == R.id.nav_profile) {
                     redirectProfileFragment();
+                    return true;
+                }
+
+                if(item.getItemId() == R.id.nav_learning) {
+                    redirectLearningFragment();
                     return true;
                 }
                 return false;
@@ -89,5 +97,15 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
     }
 
+
+    private void redirectLearningFragment() {
+        GlobalVariable globalVariable = (GlobalVariable) getApplication();
+        if (!globalVariable.isLoggedIn()) {
+            Intent activityChangeIntent = new Intent(this, LoginActivity.class);
+            startActivity(activityChangeIntent);
+        }
+        Fragment fragment  = new CartFragment(this, globalVariable);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
+    }
 
 }
