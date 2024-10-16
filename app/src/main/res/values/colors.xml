@@ -20,5 +20,7 @@
     <color name="colorNavIcon">#dae9f6</color>
     <color name="colorNavText">#01294b</color>
     <color name="duskYellow">#CDBB1D</color>
+    <color name="colorBlue">#03A9F4</color>
+
 
 </resources>

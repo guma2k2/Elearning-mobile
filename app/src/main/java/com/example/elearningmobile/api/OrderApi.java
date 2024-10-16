@@ -1,6 +1,7 @@
 package com.example.elearningmobile.api;
 
 import com.example.elearningmobile.model.course.CourseListGetVM;
+import com.example.elearningmobile.model.order.OrderVM;
 import com.example.elearningmobile.ultity.Constants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,6 +14,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Path;
 
 public interface OrderApi {
@@ -32,4 +34,7 @@ public interface OrderApi {
 
     @GET("/beseller-courses")
     Call<List<CourseListGetVM>> getBestSellerCourse();
+
+    @GET("/user")
+    Call<List<OrderVM>> getOrdersByUser(@Header("Authorization") String token);
 }
