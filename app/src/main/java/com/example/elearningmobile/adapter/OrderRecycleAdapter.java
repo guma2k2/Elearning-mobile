@@ -15,11 +15,10 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.elearningmobile.R;
-import com.example.elearningmobile.activity.OrderEditActivity;
+import com.example.elearningmobile.activity.OrderDetailActivity;
 import com.example.elearningmobile.model.order.OrderDetailVM;
 import com.example.elearningmobile.model.order.OrderStatus;
 import com.example.elearningmobile.model.order.OrderVM;
-import com.example.elearningmobile.ultity.DateFormatter;
 import com.example.elearningmobile.ultity.PriceFormatter;
 import com.example.elearningmobile.variable.GlobalVariable;
 
@@ -69,7 +68,7 @@ public class OrderRecycleAdapter extends RecyclerView.Adapter<OrderRecycleAdapte
         holder.btn_order_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                redirectToOrderDetailPage(order.getId());
+                redirectToOrderDetailPage(order);
             }
         });
 //        holder.btn_order_edit.setOnClickListener(new View.OnClickListener() {
@@ -147,23 +146,16 @@ public class OrderRecycleAdapter extends RecyclerView.Adapter<OrderRecycleAdapte
 //                .show();
     }
 
-    private void redirectToOrderDetailPage(Long orderId) {
-        Intent intent = new Intent(context, OrderEditActivity.class);
+    private void redirectToOrderDetailPage(OrderVM order) {
+        Intent intent = new Intent(context, OrderDetailActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putLong("orderId", orderId);
+        bundle.putSerializable("order", order);
         intent.putExtras(bundle);
         context.startActivity(intent);
     }
 
 
 
-    private void redirectToOrderEditPage(OrderVM order) {
-        Intent intent = new Intent(context, OrderEditActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("order", order);
-        intent.putExtra("order", bundle);
-        context.startActivity(intent);
-    }
 
 
     private Long getTotalPriceByOrder(OrderVM order) {
