@@ -32,7 +32,7 @@ public interface CartApi {
             create(CartApi.class);
 
     // get course by category
-    @GET
+    @GET("carts")
     Call<List<CartListGetVM>> getCarts(@Header("Authorization") String token);
 
 

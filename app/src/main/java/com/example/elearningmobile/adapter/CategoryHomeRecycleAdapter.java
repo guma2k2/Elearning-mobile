@@ -23,8 +23,8 @@ public class CategoryHomeRecycleAdapter extends RecyclerView.Adapter<CategoryHom
 
     private List<CategoryListGetVM> categories;
 
-    public CategoryHomeRecycleAdapter(List<CategoryListGetVM> categories) {
-        this.categories = categories;
+    public CategoryHomeRecycleAdapter(List<CategoryListGetVM> categoryListGetVMS) {
+        this.categories = categoryListGetVMS;
     }
 
     @NonNull
@@ -37,16 +37,13 @@ public class CategoryHomeRecycleAdapter extends RecyclerView.Adapter<CategoryHom
     @Override
     public void onBindViewHolder(@NonNull CategoryHomeRecycleAdapter.CategoryHolder holder, int position) {
         CategoryListGetVM categoryVM = categories.get(position);
-
-        // set data for view holder
-
         holder.tv_categoryName_item.setText(categoryVM.getName());
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return categories.size();
     }
 
     class CategoryHolder extends RecyclerView.ViewHolder{

@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import com.example.elearningmobile.R;
 import com.example.elearningmobile.fragment.CartFragment;
 import com.example.elearningmobile.fragment.HomeFragment;
+import com.example.elearningmobile.fragment.MyLearningFragment;
+import com.example.elearningmobile.fragment.ProfileFragment;
 import com.example.elearningmobile.variable.GlobalVariable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void redirectProfileFragment() {
-        Fragment fragment  = new HomeFragment(this);
+        Fragment fragment  = new ProfileFragment(this);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
     }
 
@@ -104,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             Intent activityChangeIntent = new Intent(this, LoginActivity.class);
             startActivity(activityChangeIntent);
         }
-        Fragment fragment  = new CartFragment(this, globalVariable);
+        Fragment fragment  = new MyLearningFragment(this, globalVariable);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
     }
 

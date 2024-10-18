@@ -21,8 +21,8 @@ public class CourseHomeRecycleAdapter extends RecyclerView.Adapter<CourseHomeRec
 
     private List<CourseListGetVM> courses;
 
-    public CourseHomeRecycleAdapter(List<CourseListGetVM> courses) {
-        this.courses = courses;
+    public CourseHomeRecycleAdapter(List<CourseListGetVM> courseListGetVMS) {
+        this.courses = courseListGetVMS;
     }
 
     @NonNull
@@ -49,7 +49,7 @@ public class CourseHomeRecycleAdapter extends RecyclerView.Adapter<CourseHomeRec
 
     @Override
     public int getItemCount() {
-        return 0;
+        return courses.size();
     }
 
     class CourseHolder extends RecyclerView.ViewHolder{

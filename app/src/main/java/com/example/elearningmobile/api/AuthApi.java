@@ -31,9 +31,9 @@ public interface AuthApi {
             .build().
             create(AuthApi.class);
 
-    @POST("/login")
+    @POST("login")
     Call<AuthenticationVm> login(@Body AuthenticationPostVm authenticationPostVm);
 
-    @POST("/register")
+    @POST("register")
     Call<AuthenticationVm> register(@Body RegistrationPostVm registrationPostVm);
 }

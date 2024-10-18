@@ -22,8 +22,8 @@ public class CartRecycleAdapter extends RecyclerView.Adapter<CartRecycleAdapter.
 
     private List<CartListGetVM> carts;
 
-    public CartRecycleAdapter(List<CartListGetVM> carts) {
-        this.carts = carts;
+    public CartRecycleAdapter(List<CartListGetVM> cartListGetVMS) {
+        this.carts = cartListGetVMS;
     }
 
     @NonNull
@@ -51,7 +51,7 @@ public class CartRecycleAdapter extends RecyclerView.Adapter<CartRecycleAdapter.
 
     @Override
     public int getItemCount() {
-        return 0;
+        return carts.size();
     }
 
     class CourseHolder extends RecyclerView.ViewHolder{

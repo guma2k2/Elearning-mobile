@@ -46,17 +46,10 @@ public class CartFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
         setControl(view);
-        setCarts();
         setEvent();
         return view;
     }
@@ -64,11 +57,13 @@ public class CartFragment extends Fragment {
     private void setCarts() {
         if (globalVariable.isLoggedIn()){
             String token = globalVariable.getAccess_token();
-            CartApi.cartApi.getCarts(token).enqueue(new Callback<List<CartListGetVM>>() {
+            String bearerToken = "Bearer " + token;
+            CartApi.cartApi.getCarts(bearerToken).enqueue(new Callback<List<CartListGetVM>>() {
                 @Override
                 public void onResponse(Call<List<CartListGetVM>> call, Response<List<CartListGetVM>> response) {
                     List<CartListGetVM> res = response.body();
                     carts.addAll(res);
+                    cartRecycleAdapter.notifyDataSetChanged();
                 }
 
                 @Override

@@ -32,9 +32,9 @@ public interface OrderApi {
             .build().
             create(OrderApi.class);
 
-    @GET("/beseller-courses")
+    @GET("beseller-courses")
     Call<List<CourseListGetVM>> getBestSellerCourse();
 
-    @GET("/user")
+    @GET("user")
     Call<List<OrderVM>> getOrdersByUser(@Header("Authorization") String token);
 }
