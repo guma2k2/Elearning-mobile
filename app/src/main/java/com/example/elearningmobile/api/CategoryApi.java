@@ -30,7 +30,7 @@ public interface CategoryApi {
             .client(okHttpClient)
             .build().
             create(CategoryApi.class);
-    @GET("/parents")
+    @GET("parents")
     Call<List<CategoryListGetVM>> getCategoryParent();
 
 }

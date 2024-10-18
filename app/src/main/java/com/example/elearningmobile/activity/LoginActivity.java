@@ -24,7 +24,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     EditText ed_email_login, ed_password_login;
-    Button btn_login;
+    Button btn_login, btn_register_home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
+        btn_register_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redirectToRegisterPage();
+            }
+        });
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                         AuthenticationVm authenticationResponse = response.body();
                         GlobalVariable globalVariable = (GlobalVariable) getApplication();
                         globalVariable.setAuthentication(authenticationResponse);
+                        globalVariable.setLoggedIn(true);
                         Toast.makeText(getApplicationContext(),  "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                         redirectToHomePage();
                     }
@@ -67,10 +74,17 @@ public class LoginActivity extends AppCompatActivity {
         Intent activityChangeIntent = new Intent(this, MainActivity.class);
         this.startActivity(activityChangeIntent);
     }
+
+    private void redirectToRegisterPage() {
+        Intent activityChangeIntent = new Intent(this, RegisterActivity.class);
+        this.startActivity(activityChangeIntent);
+    }
     private void setControl() {
         ed_email_login = findViewById(R.id.ed_email_login);
         ed_password_login = findViewById(R.id.ed_password_login);
         btn_login = findViewById(R.id.btn_login);
+        btn_register_home = findViewById(R.id.btn_register_home);
+
 
     }
 }

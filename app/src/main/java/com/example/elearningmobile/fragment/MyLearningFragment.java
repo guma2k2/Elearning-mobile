@@ -28,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-class MyLearningFragment extends Fragment {
+public class MyLearningFragment extends Fragment {
     private Context context;
     private GlobalVariable globalVariable ;
 
@@ -48,7 +48,6 @@ class MyLearningFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_learning, container, false);
-        setLearningCourses();
         setControl(view);
         setEvent();
         return view;
@@ -63,11 +62,13 @@ class MyLearningFragment extends Fragment {
     private void setLearningCourses() {
         if (globalVariable.isLoggedIn()) {
             String token = globalVariable.getAccess_token();
-            MyLearningCourseApi.myLearningCourseApi.getByStudent(token).enqueue(new Callback<List<LearningCourseVM>>() {
+            String bearerToken = "Bearer " + token;
+            MyLearningCourseApi.myLearningCourseApi.getByStudent(bearerToken).enqueue(new Callback<List<LearningCourseVM>>() {
                 @Override
                 public void onResponse(Call<List<LearningCourseVM>> call, Response<List<LearningCourseVM>> response) {
                     List<LearningCourseVM> res = response.body();
                     learningCourseVMS.addAll(res);
+                    learningRecycleAdapter.notifyDataSetChanged();
                 }
 
                 @Override

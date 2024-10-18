@@ -57,7 +57,7 @@ public class LearningRecycleAdapter extends RecyclerView.Adapter<LearningRecycle
 
     @Override
     public int getItemCount() {
-        return 0;
+        return learningCourseVMS.size();
     }
 
     class CourseHolder extends RecyclerView.ViewHolder{

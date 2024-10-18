@@ -36,7 +36,6 @@ public class OrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         setControl();
-        setOrdersByUser();
         setEvent();
     }
 
@@ -49,6 +48,7 @@ public class OrderActivity extends AppCompatActivity {
                 public void onResponse(Call<List<OrderVM>> call, Response<List<OrderVM>> response) {
                     List<OrderVM> res = response.body();
                     orders.addAll(res);
+                    orderRecycleAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -66,7 +66,17 @@ public class OrderActivity extends AppCompatActivity {
         rc_order.setLayoutManager(new LinearLayoutManager(getApplication(), RecyclerView.VERTICAL, false));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setOrdersByUser();
+    }
 
+
+    @Override
+    public void onTopResumedActivityChanged(boolean isTopResumedActivity) {
+        super.onTopResumedActivityChanged(isTopResumedActivity);
+    }
 
     private void setControl() {
         rc_order = findViewById(R.id.rc_order);

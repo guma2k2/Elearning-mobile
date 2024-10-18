@@ -41,7 +41,8 @@ public class HomeFragment extends Fragment {
     List<CategoryListGetVM> categories;
 
 
-    CourseHomeRecycleAdapter courseCategoryRecycleAdapter, courseBestSellerRecycleAdapter;
+    CourseHomeRecycleAdapter courseCategoryRecycleAdapter;
+    CourseHomeRecycleAdapter courseBestSellerRecycleAdapter;
 
     CategoryHomeRecycleAdapter categoryHomeRecycleAdapter;
 
@@ -58,10 +59,15 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
         setControl(view);
+        setEvent();
+        return view;
+    }
 
-        setCategories();
-        setCoursesByCategory();
-        setCoursesBestSeller();
+    private void setEvent() {
+        categoryHomeRecycleAdapter = new CategoryHomeRecycleAdapter(categories);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 2, RecyclerView.HORIZONTAL, false);
+        rc_category_home.setLayoutManager(gridLayoutManager);
+        rc_category_home.setAdapter(categoryHomeRecycleAdapter);
 
         courseCategoryRecycleAdapter = new CourseHomeRecycleAdapter(coursesByCategory);
         rc_courses_category.setAdapter(courseCategoryRecycleAdapter);
@@ -72,10 +78,6 @@ public class HomeFragment extends Fragment {
         rc_top_courses.setAdapter(courseBestSellerRecycleAdapter);
         rc_top_courses.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
 
-        categoryHomeRecycleAdapter = new CategoryHomeRecycleAdapter(categories);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 2, RecyclerView.HORIZONTAL, false);
-        rc_category_home.setLayoutManager(gridLayoutManager);
-        return view;
     }
 
     private void setCategories() {
@@ -84,6 +86,8 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<List<CategoryListGetVM>> call, Response<List<CategoryListGetVM>> response) {
                 List<CategoryListGetVM> categoryVMS = response.body();
                 categories.addAll(categoryVMS);
+                categoryHomeRecycleAdapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -99,6 +103,7 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<List<CourseListGetVM>> call, Response<List<CourseListGetVM>> response) {
                 List<CourseListGetVM> res = response.body();
                 coursesBestSeller.addAll(res);
+                courseBestSellerRecycleAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -116,6 +121,7 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<List<CourseListGetVM>> call, Response<List<CourseListGetVM>> response) {
                 List<CourseListGetVM> res = response.body();
                 coursesByCategory.addAll(res);
+                courseCategoryRecycleAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -123,6 +129,14 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(context, t.toString(), Toast.LENGTH_SHORT);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setCoursesByCategory();
+        setCategories();
+        setCoursesBestSeller();
     }
 
     private void setControl(View view) {

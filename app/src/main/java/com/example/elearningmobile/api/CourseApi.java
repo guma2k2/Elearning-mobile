@@ -34,7 +34,7 @@ public interface CourseApi {
             create(CourseApi.class);
 
     // get course by category
-    @GET("/category/{categoryId}")
+    @GET("category/{categoryId}")
     Call<List<CourseListGetVM>> getCourseByCategory(@Path("categoryId") Integer categoryId);
 
 

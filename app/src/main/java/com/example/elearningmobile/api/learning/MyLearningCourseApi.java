@@ -32,7 +32,6 @@ public interface MyLearningCourseApi {
             .build().
             create(MyLearningCourseApi.class);
 
-    // get course by category
-    @GET("/student")
+    @GET("/api/v1/learning-course/student")
     Call<List<LearningCourseVM>> getByStudent(@Header("Authorization") String token);
 }
