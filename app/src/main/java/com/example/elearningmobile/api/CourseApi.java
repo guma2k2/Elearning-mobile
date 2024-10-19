@@ -3,6 +3,7 @@ package com.example.elearningmobile.api;
 import com.example.elearningmobile.model.AuthenticationPostVm;
 import com.example.elearningmobile.model.AuthenticationResponse;
 import com.example.elearningmobile.model.course.CourseListGetVM;
+import com.example.elearningmobile.model.course.CourseVM;
 import com.example.elearningmobile.ultity.Constants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,6 +39,7 @@ public interface CourseApi {
     Call<List<CourseListGetVM>> getCourseByCategory(@Path("categoryId") Integer categoryId);
 
 
-
+    @GET("/{courseId}")
+    Call<CourseVM> getCourseById(@Path("courseId") Long courseId);
 
 }
