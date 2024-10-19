@@ -9,16 +9,17 @@
         android:src="@drawable/course_image_test"
         android:layout_width="wrap_content"
         android:scaleType="fitXY"
-        android:layout_height="200dp"/>
+        android:layout_height="220dp"/>
     <TextView
         android:id="@+id/tv_courseTitle_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:text="course title"/>
     <TextView
         android:id="@+id/tv_courseInstructor_home"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="instructor name"/>
@@ -62,7 +63,8 @@
         android:id="@+id/tv_coursePrice_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:text="100.000d"/>
 
 </LinearLayout>

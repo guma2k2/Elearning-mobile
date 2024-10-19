@@ -19,7 +19,8 @@
             android:id="@+id/tv_courseTitle_cart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:text="course title"/>
         <TextView
             android:id="@+id/tv_courseInstructor_cart"
