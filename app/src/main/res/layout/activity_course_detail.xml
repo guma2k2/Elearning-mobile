@@ -38,14 +38,14 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/course_image_test"/>
             <TextView
-                android:id="@+id/iv_courseTitle_courseDetail"
+                android:id="@+id/tv_courseTitle_courseDetail"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="course title"/>
             <TextView
-                android:id="@+id/iv_courseDesc_courseDetail"
+                android:id="@+id/tv_courseDesc_courseDetail"
                 android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                     android:scaleX="0.4"
                     android:scaleY="0.4"
                     android:numStars="5"
-                    android:stepSize="1"
+                    android:stepSize="0.5"
                     android:transformPivotX="12dp"
                     android:transformPivotY="20dp"
                     android:isIndicator="true"
@@ -86,11 +86,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
+                    android:id="@+id/tv_ratingCount_courseDetail"
                     android:textSize="16sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="course desc"/>
                 <TextView
+                    android:id="@+id/tv_studentCount_courseDetail"
                     android:layout_marginLeft="10dp"
                     android:textSize="16sp"
                     android:layout_width="match_parent"

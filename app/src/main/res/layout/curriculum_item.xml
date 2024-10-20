@@ -17,11 +17,13 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" >
             <TextView
+                android:id="@+id/tv_sectionNum"
                 android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="course desc"/>
             <TextView
+                android:id="@+id/tv_sectionTitle"
                 android:layout_marginLeft="10dp"
                 android:textSize="16sp"
                 android:layout_width="match_parent"
@@ -30,7 +32,7 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/textViewRight"
+            android:id="@+id/iv_toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/plus"
@@ -41,6 +43,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rc_lectures"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>
