@@ -61,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<AuthenticationVm> call, Throwable t) {
                         Toast.makeText(getApplicationContext(), "Có lỗi xảy ra trong quá trình đăng nhap", Toast.LENGTH_SHORT).show();
-
                     }
 
                 });
