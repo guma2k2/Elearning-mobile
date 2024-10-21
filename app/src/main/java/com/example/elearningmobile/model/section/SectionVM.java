@@ -10,6 +10,7 @@ public class SectionVM {
     private float number;
     private String objective;
     private List<Curriculum> curriculums;
+    private boolean toggle = false;
 
     // Constructor
     public SectionVM(Long id, String title, float number, String objective, List<Curriculum> curriculums) {
@@ -18,6 +19,14 @@ public class SectionVM {
         this.number = number;
         this.objective = objective;
         this.curriculums = curriculums;
+    }
+
+    public boolean isToggle() {
+        return toggle;
+    }
+
+    public void setToggle(boolean toggle) {
+        this.toggle = toggle;
     }
 
     // Getters

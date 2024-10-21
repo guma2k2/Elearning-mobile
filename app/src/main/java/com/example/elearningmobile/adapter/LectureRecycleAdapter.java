@@ -15,6 +15,7 @@ import com.example.elearningmobile.model.Curriculum;
 import com.example.elearningmobile.model.ECurriculumType;
 import com.example.elearningmobile.model.LectureVm;
 import com.example.elearningmobile.model.course.CourseVM;
+import com.example.elearningmobile.model.section.SectionVM;
 
 import java.util.List;
 
@@ -23,8 +24,11 @@ public class LectureRecycleAdapter extends RecyclerView.Adapter<LectureRecycleAd
 
     private List<Curriculum> curriculumList;
 
-    public LectureRecycleAdapter(List<Curriculum> curriculumList) {
+    private List<SectionVM> sectionVMS;
+
+    public LectureRecycleAdapter(List<Curriculum> curriculumList, List<SectionVM> sectionVMS) {
         this.curriculumList = curriculumList;
+        this.sectionVMS = sectionVMS;
     }
 
     @NonNull
@@ -37,9 +41,27 @@ public class LectureRecycleAdapter extends RecyclerView.Adapter<LectureRecycleAd
     @Override
     public void onBindViewHolder(@NonNull LectureRecycleAdapter.LectureHolder holder, int position) {
         Curriculum curriculum = curriculumList.get(position);
-        holder.tv_lectureNum.setText(1+"");
+        holder.tv_lectureNum.setText(getLectureNum(position)+"");
         holder.tv_lectureName.setText(curriculum.getTitle());
+        if (curriculum instanceof LectureVm) {
+            holder.tv_lectureDesc.setText(curriculum.getType() + " - " + ((LectureVm) curriculum).getDuration() );
 
+        } else {
+            holder.tv_lectureDesc.setText(curriculum.getType()+"");
+        }
+    }
+
+    int getLectureNum(int position) {
+        int start = 1;
+        for(int i = 0 ; i < sectionVMS.size(); i++) {
+            for (int j = 0; j < sectionVMS.get(i).getCurriculums().size() ; j++) {
+                if (sectionVMS.get(i).getCurriculums().get(j).equals(curriculumList.get(position))) {
+                    return start ;
+                }
+                start++;
+            }
+        }
+        return 0 ;
     }
 
     @Override
