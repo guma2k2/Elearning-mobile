@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_studentName_review"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="course title"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:background="@android:color/transparent">
+        <RatingBar
+            android:id="@+id/rb_rating_review"
+            android:layout_width="230dp"
+            android:layout_height="40dp"
+            android:scaleX="0.4"
+            android:scaleY="0.4"
+            android:numStars="5"
+            android:stepSize="0.1"
+            android:transformPivotX="12dp"
+            android:transformPivotY="20dp"
+            android:isIndicator="true"
+            android:rating="4.2"
+            android:max="5"
+            android:scaleType="fitXY"
+            android:theme="@style/RatingBar"/>
+        <TextView
+            android:id="@+id/tv_reviewCreatedAt_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 day ago"
+            android:textSize="16sp"
+            android:layout_marginEnd="8dp"
+            android:textColor="@android:color/black"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_reviewText_review"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="review"/>
+</LinearLayout>

@@ -14,12 +14,20 @@ import android.widget.Toast;
 import com.example.elearningmobile.R;
 import com.example.elearningmobile.adapter.CartRecycleAdapter;
 import com.example.elearningmobile.adapter.CurriculumRecycleAdapter;
+import com.example.elearningmobile.adapter.ReviewRecycleAdapter;
 import com.example.elearningmobile.adapter.StringRecycleAdapter;
 import com.example.elearningmobile.api.CourseApi;
+import com.example.elearningmobile.api.ReviewApi;
 import com.example.elearningmobile.model.CourseDetailType;
+import com.example.elearningmobile.model.PageableData;
 import com.example.elearningmobile.model.course.CourseVM;
 import com.example.elearningmobile.model.order.OrderVM;
+import com.example.elearningmobile.model.review.ReviewVM;
 import com.example.elearningmobile.ultity.PriceFormatter;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,11 +36,12 @@ import retrofit2.Response;
 public class CourseDetailActivity extends AppCompatActivity {
 
     TextView tv_courseTitle_courseDetail, tv_courseDesc_courseDetail, tv_courseRating_courseDetail
-            ,tv_coursePrice_courseDetail, tv_ratingCount_courseDetail, tv_studentCount_courseDetail;
+            ,tv_coursePrice_courseDetail, tv_ratingCount_courseDetail, tv_studentCount_courseDetail
+            ,tv_instructorName_courseDetail;
     RatingBar rb_courseRating_courseDetail;
-    RecyclerView rc_objectives_courseDetail, rc_curriculum_courseDetail;
+    RecyclerView rc_objectives_courseDetail, rc_curriculum_courseDetail, rc_reviews_courseDetail;
 
-    ImageView iv_courseImage_courseDetail;
+    ImageView iv_courseImage_courseDetail, iv_instructorPhoto_courseDetail;
 
     private Long courseId;
 
@@ -41,6 +50,9 @@ public class CourseDetailActivity extends AppCompatActivity {
     private StringRecycleAdapter objectiveRecycleAdapter;
 
     private CurriculumRecycleAdapter curriculumRecycleAdapter;
+    private ReviewRecycleAdapter reviewRecycleAdapter;
+
+    private List<ReviewVM> reviewVMList = new ArrayList<>();
 
 
     @Override
@@ -51,6 +63,10 @@ public class CourseDetailActivity extends AppCompatActivity {
         setEvent();
     }
 
+    public void setCourse(CourseVM course) {
+        this.course = course;
+    }
+
     private void setEvent() {
         if (course != null) {
             tv_courseTitle_courseDetail.setText(course.getTitle());
@@ -59,6 +75,10 @@ public class CourseDetailActivity extends AppCompatActivity {
             rb_courseRating_courseDetail.setRating((float) course.getAverageRating());
             tv_ratingCount_courseDetail.setText(course.getRatingCount());
             tv_coursePrice_courseDetail.setText(PriceFormatter.formatPriceInVND(course.getPrice()));
+            Picasso.get().load(course.getUser().getPhoto()).into(iv_instructorPhoto_courseDetail);
+            tv_instructorName_courseDetail.setText(course.getUser().getFullName());
+
+
 
 
             objectiveRecycleAdapter = new StringRecycleAdapter(course.getObjectives(), CourseDetailType.objective);
@@ -70,6 +90,11 @@ public class CourseDetailActivity extends AppCompatActivity {
             rc_curriculum_courseDetail.setAdapter(curriculumRecycleAdapter);
             rc_curriculum_courseDetail.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
+
+            reviewRecycleAdapter = new ReviewRecycleAdapter(reviewVMList);
+            rc_reviews_courseDetail.setAdapter(reviewRecycleAdapter);
+            rc_reviews_courseDetail.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+
         }
 
     }
@@ -80,6 +105,7 @@ public class CourseDetailActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setCourse();
+        setReviews();
     }
 
     private void setCourse () {
@@ -89,12 +115,34 @@ public class CourseDetailActivity extends AppCompatActivity {
                 public void onResponse(Call<CourseVM> call, Response<CourseVM> response) {
                     if (response.body() != null) {
                         course = response.body();
+                        curriculumRecycleAdapter.notifyDataSetChanged();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<CourseVM> call, Throwable t) {
                     Toast.makeText(getApplicationContext(), "Có lỗi xảy ra trong quá trình đăng nhap", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void setReviews() {
+        if (courseId != null) {
+            ReviewApi.reviewApi.getCourseById(courseId).enqueue(new Callback<PageableData<ReviewVM>>() {
+                @Override
+                public void onResponse(Call<PageableData<ReviewVM>> call, Response<PageableData<ReviewVM>> response) {
+                    if (response.body() != null) {
+                        List<ReviewVM> reviewVMS = response.body().getContent();
+                        reviewVMList.addAll(reviewVMS);
+                        reviewRecycleAdapter.notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<PageableData<ReviewVM>> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Có lỗi xảy ra trong quá trình đăng nhap", Toast.LENGTH_SHORT).show();
+
                 }
             });
         }
@@ -111,6 +159,10 @@ public class CourseDetailActivity extends AppCompatActivity {
         iv_courseImage_courseDetail = findViewById(R.id.iv_courseImage_courseDetail);
         tv_ratingCount_courseDetail = findViewById(R.id.tv_ratingCount_courseDetail);
         tv_studentCount_courseDetail = findViewById(R.id.tv_studentCount_courseDetail);
+        tv_instructorName_courseDetail = findViewById(R.id.tv_instructorName_courseDetail);
+
+
+        iv_instructorPhoto_courseDetail = findViewById(R.id.iv_instructorPhoto_courseDetail);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
