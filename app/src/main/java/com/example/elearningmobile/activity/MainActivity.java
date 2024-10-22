@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.elearningmobile.R;
 import com.example.elearningmobile.fragment.CartFragment;
+import com.example.elearningmobile.fragment.FilterFragment;
 import com.example.elearningmobile.fragment.HomeFragment;
 import com.example.elearningmobile.fragment.MyLearningFragment;
 import com.example.elearningmobile.fragment.ProfileFragment;
@@ -43,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
                 redirectLearningFragment();
                 bottom_navigation.setSelectedItemId(R.id.nav_learning);
             }
+            else if (fragment == R.id.nav_search){
+                redirectSearchFragment();
+                bottom_navigation.setSelectedItemId(R.id.nav_search);
+            }
         }
 
     }
@@ -68,6 +73,12 @@ public class MainActivity extends AppCompatActivity {
 
                 if(item.getItemId() == R.id.nav_learning) {
                     redirectLearningFragment();
+                    return true;
+                }
+
+
+                if(item.getItemId() == R.id.nav_search) {
+                    redirectSearchFragment();
                     return true;
                 }
                 return false;
@@ -96,6 +107,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void redirectProfileFragment() {
         Fragment fragment  = new ProfileFragment(this);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
+    }
+
+    private void redirectSearchFragment() {
+        Fragment fragment  = new FilterFragment(this);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
     }
 
