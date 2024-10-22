@@ -53,8 +53,10 @@ public class CurriculumRecycleAdapter extends RecyclerView.Adapter<CurriculumRec
 
         if (sectionVM.isToggle()) {
             holder.rc_lectures.setVisibility(View.VISIBLE);
+            holder.iv_toggle.setImageResource(R.drawable.minus);
         }else {
             holder.rc_lectures.setVisibility(View.GONE);
+            holder.iv_toggle.setImageResource(R.drawable.plus);
         }
 
         holder.iv_toggle.setOnClickListener(new View.OnClickListener() {

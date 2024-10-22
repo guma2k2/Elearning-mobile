@@ -37,9 +37,11 @@ public class CourseDetailActivity extends AppCompatActivity {
 
     TextView tv_courseTitle_courseDetail, tv_courseDesc_courseDetail, tv_courseRating_courseDetail
             ,tv_coursePrice_courseDetail, tv_ratingCount_courseDetail, tv_studentCount_courseDetail
-            ,tv_instructorName_courseDetail;
+            ,tv_instructorName_courseDetail, tv_ratingInstructor_courseDetail, tv_reviewCountInstructor_courseDetail
+            ,tv_studentCountInstructor_courseDetail;
     RatingBar rb_courseRating_courseDetail;
-    RecyclerView rc_objectives_courseDetail, rc_curriculum_courseDetail, rc_reviews_courseDetail;
+    RecyclerView rc_objectives_courseDetail, rc_curriculum_courseDetail, rc_reviews_courseDetail,
+            rc_requirements_courseDetail;
 
     ImageView iv_courseImage_courseDetail, iv_instructorPhoto_courseDetail;
 
@@ -47,7 +49,7 @@ public class CourseDetailActivity extends AppCompatActivity {
 
     private CourseVM course = null;
 
-    private StringRecycleAdapter objectiveRecycleAdapter;
+    private StringRecycleAdapter objectiveRecycleAdapter, requirementRecycleAdapter;
 
     private CurriculumRecycleAdapter curriculumRecycleAdapter;
     private ReviewRecycleAdapter reviewRecycleAdapter;
@@ -65,6 +67,7 @@ public class CourseDetailActivity extends AppCompatActivity {
 
     public void setCourse(CourseVM course) {
         this.course = course;
+        curriculumRecycleAdapter.notifyDataSetChanged();
     }
 
     private void setEvent() {
@@ -78,12 +81,18 @@ public class CourseDetailActivity extends AppCompatActivity {
             Picasso.get().load(course.getUser().getPhoto()).into(iv_instructorPhoto_courseDetail);
             tv_instructorName_courseDetail.setText(course.getUser().getFullName());
 
-
+            tv_ratingInstructor_courseDetail.setText(course.getUser().getAverageRating() + "");
+            tv_reviewCountInstructor_courseDetail.setText(course.getUser().getNumberOfReview());
+            tv_studentCountInstructor_courseDetail.setText(course.getUser().getNumberOfStudent());
 
 
             objectiveRecycleAdapter = new StringRecycleAdapter(course.getObjectives(), CourseDetailType.objective);
             rc_objectives_courseDetail.setAdapter(objectiveRecycleAdapter);
             rc_objectives_courseDetail.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+
+            requirementRecycleAdapter = new StringRecycleAdapter(course.getRequirements(), CourseDetailType.requirement);
+            rc_requirements_courseDetail.setAdapter(requirementRecycleAdapter);
+            rc_requirements_courseDetail.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
 
             curriculumRecycleAdapter = new CurriculumRecycleAdapter(course, this);
@@ -160,8 +169,10 @@ public class CourseDetailActivity extends AppCompatActivity {
         tv_ratingCount_courseDetail = findViewById(R.id.tv_ratingCount_courseDetail);
         tv_studentCount_courseDetail = findViewById(R.id.tv_studentCount_courseDetail);
         tv_instructorName_courseDetail = findViewById(R.id.tv_instructorName_courseDetail);
-
-
+        tv_ratingInstructor_courseDetail = findViewById(R.id.tv_ratingInstructor_courseDetail);
+        tv_reviewCountInstructor_courseDetail = findViewById(R.id.tv_reviewCountInstructor_courseDetail);
+        tv_studentCountInstructor_courseDetail = findViewById(R.id.tv_studentCountInstructor_courseDetail);
+        rc_requirements_courseDetail = findViewById(R.id.rc_requirements_courseDetail);
         iv_instructorPhoto_courseDetail = findViewById(R.id.iv_instructorPhoto_courseDetail);
 
         Bundle extras = getIntent().getExtras();
