@@ -2,6 +2,7 @@ package com.example.elearningmobile.api;
 
 import com.example.elearningmobile.model.AuthenticationPostVm;
 import com.example.elearningmobile.model.AuthenticationResponse;
+import com.example.elearningmobile.model.course.CourseLearningVm;
 import com.example.elearningmobile.model.course.CourseListGetVM;
 import com.example.elearningmobile.model.course.CourseVM;
 import com.example.elearningmobile.ultity.Constants;
@@ -19,6 +20,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface CourseApi {
     Gson gson = new GsonBuilder().create();
@@ -39,7 +41,29 @@ public interface CourseApi {
     Call<List<CourseListGetVM>> getCourseByCategory(@Path("categoryId") Integer categoryId);
 
 
-    @GET("/{courseId}")
+    @GET("{courseId}")
     Call<CourseVM> getCourseById(@Path("courseId") Long courseId);
 
+
+    @GET("{slug}/learn")
+    Call<CourseLearningVm> getCoursesBySlug(@Query("slug")String slug);
+
+    @GET("search")
+    Call<List<CourseListGetVM>> getCoursesByMultiQuery();
+
+
+    @GET("search")
+    Call<List<CourseListGetVM>> getCoursesByMultiQuery(@Query("keyword")String keyword);
+
+    @GET("search")
+    Call<List<CourseListGetVM>> getCoursesByMultiQuery(@Query("ratingStar")Float ratingStar);
+
+    @GET("search")
+    Call<List<CourseListGetVM>> getCoursesByMultiQuery(@Query("level")String[] level);
+
+    @GET("search")
+    Call<List<CourseListGetVM>> getCoursesByMultiQuery(@Query("free")Boolean[] free);
+
+    @GET("search")
+    Call<List<CourseListGetVM>> getCoursesByMultiQueryCategory(@Query("categoryName")String categoryName);
 }

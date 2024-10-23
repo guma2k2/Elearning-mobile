@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_marginBottom="10dp"
+    android:id="@+id/ll_lecture_learning"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_lectureNum_learning"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="1"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_lectureName_learning"
+            android:textStyle="bold"
+            android:text="lecture desc"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"/>
+        <TextView
+            android:id="@+id/tv_lectureDesc_learning"
+            android:text="Video - 5:25"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+    </LinearLayout>
+</LinearLayout>

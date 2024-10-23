@@ -34,7 +34,7 @@ public class LectureRecycleAdapter extends RecyclerView.Adapter<LectureRecycleAd
     @NonNull
     @Override
     public LectureRecycleAdapter.LectureHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.curriculum_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lecture_item, parent, false);
         return new LectureRecycleAdapter.LectureHolder(view);
     }
 
