@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:paddingVertical="10dp"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/iv_courseImage_course"
+        android:src="@drawable/course_image_test"
+        android:layout_width="80dp"
+        android:scaleType="fitXY"
+        android:layout_height="80dp"/>
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_courseTitle_course"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="course title"/>
+        <TextView
+            android:id="@+id/tv_courseInstructor_course"
+            android:textSize="15sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="instructor name"/>
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:background="@android:color/transparent">
+            <TextView
+                android:id="@+id/tv_courseRating_course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4.0"
+
+                android:textSize="16sp"
+                android:layout_marginEnd="8dp"
+                android:textColor="@android:color/black"/>
+
+            <RatingBar
+                android:id="@+id/rb_courseRating_course"
+                android:layout_width="230dp"
+                android:layout_height="40dp"
+                android:scaleX="0.4"
+                android:scaleY="0.4"
+                android:numStars="5"
+                android:stepSize="0.1"
+                android:transformPivotX="12dp"
+                android:transformPivotY="20dp"
+                android:isIndicator="true"
+                android:rating="4.2"
+                android:max="5"
+                android:scaleType="fitXY"
+                android:theme="@style/RatingBar"/>
+            />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_coursePrice_course"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="100.000d"/>
+    </LinearLayout>
+
+</LinearLayout>

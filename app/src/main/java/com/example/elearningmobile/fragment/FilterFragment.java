@@ -16,8 +16,10 @@ import android.widget.Toast;
 
 import com.example.elearningmobile.R;
 import com.example.elearningmobile.adapter.CourseHomeRecycleAdapter;
+import com.example.elearningmobile.adapter.CourseRecycleAdapter;
 import com.example.elearningmobile.adapter.FilterRecycleAdapter;
 import com.example.elearningmobile.api.CategoryApi;
+import com.example.elearningmobile.api.CourseApi;
 import com.example.elearningmobile.model.category.CategoryListGetVM;
 import com.example.elearningmobile.model.course.CourseListGetVM;
 
@@ -34,18 +36,20 @@ public class FilterFragment extends Fragment {
 
     private Context context;
 
-    private RecyclerView rc_filter;
+    private RecyclerView rc_filter, rc_courses_filter;
 
     private String keyword ;
     private SearchView sv_courseFilter;
 
     private Button btn_filter;
-    private Integer categoryId;
+    private String categoryName;
     private List<CourseListGetVM> courseListGetVMList = new ArrayList<>();
 
     private List<CategoryListGetVM> categories;
 
     private FilterRecycleAdapter filterRecycleAdapter;
+
+    private CourseRecycleAdapter courseRecycleAdapter;
 
     public FilterFragment(Context context) {
         this.context = context;
@@ -67,6 +71,10 @@ public class FilterFragment extends Fragment {
         rc_filter.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
 
 
+        courseRecycleAdapter = new CourseRecycleAdapter(courseListGetVMList);
+        rc_courses_filter.setAdapter(courseRecycleAdapter);
+        rc_courses_filter.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
+
 
         btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +84,7 @@ public class FilterFragment extends Fragment {
             }
         });
 
-        if (keyword != "" || categoryId != null) {
+        if (keyword != "" || categoryName != null) {
             rc_filter.setVisibility(View.GONE);
         } else {
             rc_filter.setVisibility(View.VISIBLE);
@@ -118,17 +126,35 @@ public class FilterFragment extends Fragment {
         });
     }
 
+    private void setCourses() {
+        if (keyword != null || keyword != "") {
+            CourseApi.courseApi.getCoursesByMultiQuery(keyword).enqueue(new Callback<List<CourseListGetVM>>() {
+                @Override
+                public void onResponse(Call<List<CourseListGetVM>> call, Response<List<CourseListGetVM>> response) {
+                    List<CourseListGetVM> courses = response.body();
+                    courseListGetVMList.addAll(courses);
+                    courseRecycleAdapter.notifyDataSetChanged();
+                }
+                @Override
+                public void onFailure(Call<List<CourseListGetVM>> call, Throwable t) {
+                    Toast.makeText(context, t.toString(), Toast.LENGTH_SHORT);
+                }
+            });
+        }
+    }
+
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     private void setControl(View view) {
         rc_filter = view.findViewById(R.id.rc_filter);
         sv_courseFilter = view.findViewById(R.id.sv_courseFilter);
         btn_filter = view.findViewById(R.id.btn_filter);
+        rc_courses_filter = view.findViewById(R.id.rc_courses_filter);
     }
 }
