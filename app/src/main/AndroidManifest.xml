@@ -21,9 +21,6 @@
             android:name=".activity.LearningActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.FilterActivity"
-            android:exported="false" />
-        <activity
             android:name=".activity.CourseDetailActivity"
             android:exported="false" />
         <activity

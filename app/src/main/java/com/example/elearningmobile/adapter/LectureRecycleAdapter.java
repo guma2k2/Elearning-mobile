@@ -3,18 +3,14 @@ package com.example.elearningmobile.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.elearningmobile.R;
-import com.example.elearningmobile.model.CourseDetailType;
 import com.example.elearningmobile.model.Curriculum;
-import com.example.elearningmobile.model.ECurriculumType;
 import com.example.elearningmobile.model.LectureVm;
-import com.example.elearningmobile.model.course.CourseVM;
 import com.example.elearningmobile.model.section.SectionVM;
 
 import java.util.List;

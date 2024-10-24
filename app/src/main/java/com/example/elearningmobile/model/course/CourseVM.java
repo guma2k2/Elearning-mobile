@@ -3,6 +3,7 @@ package com.example.elearningmobile.model.course;
 import com.example.elearningmobile.model.section.SectionVM;
 import com.example.elearningmobile.model.user.UserProfileVM;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class CourseVM {
@@ -60,6 +61,38 @@ public class CourseVM {
         this.user = user;
         this.learning = learning;
         this.breadcrumb = breadcrumb;
+    }
+
+    @Override
+    public String toString() {
+        return "CourseVM{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", headline='" + headline + '\'' +
+                ", slug='" + slug + '\'' +
+                ", objectives=" + Arrays.toString(objectives) +
+                ", requirements=" + Arrays.toString(requirements) +
+                ", targetAudiences=" + Arrays.toString(targetAudiences) +
+                ", description='" + description + '\'' +
+                ", level='" + level + '\'' +
+                ", image='" + image + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                ", free=" + free +
+                ", price=" + price +
+                ", isPublish=" + isPublish +
+                ", categoryId=" + categoryId +
+                ", topicId=" + topicId +
+                ", ratingCount=" + ratingCount +
+                ", averageRating=" + averageRating +
+                ", totalLectureCourse=" + totalLectureCourse +
+                ", totalDurationCourse='" + totalDurationCourse + '\'' +
+                ", createdBy='" + createdBy + '\'' +
+                ", sections=" + sections +
+                ", user=" + user +
+                ", learning=" + learning +
+                ", breadcrumb='" + breadcrumb + '\'' +
+                '}';
     }
 
     public CourseVM() {

@@ -44,7 +44,7 @@ public class StringRecycleAdapter extends RecyclerView.Adapter<StringRecycleAdap
 
     @Override
     public int getItemCount() {
-        return values.length;
+        return values != null ?  values.length : 0 ;
     }
 
     class StringHolder extends RecyclerView.ViewHolder{

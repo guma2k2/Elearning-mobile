@@ -54,7 +54,7 @@ public class MyLearningFragment extends Fragment {
     }
 
     private void setEvent() {
-        learningRecycleAdapter = new LearningRecycleAdapter(learningCourseVMS);
+        learningRecycleAdapter = new LearningRecycleAdapter(learningCourseVMS, getActivity());
         rc_learning.setAdapter(learningRecycleAdapter);
         rc_learning.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
     }

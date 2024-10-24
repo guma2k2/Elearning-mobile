@@ -46,7 +46,7 @@ public interface ReviewApi {
             @Query("sortDir") String sortDir
     );
 
-    @GET("/search/{courseId}")
+    @GET("/api/v1/reviews/search/{courseId}")
     Call<PageableData<ReviewVM>> getCourseById(
             @Path("courseId") Long courseId
     );
