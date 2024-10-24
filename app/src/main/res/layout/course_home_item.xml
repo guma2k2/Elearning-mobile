@@ -2,19 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="wrap_content"
+    android:id="@+id/ll_courseHome"
     android:paddingVertical="10dp"
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/iv_course_home"
         android:src="@drawable/course_image_test"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:scaleType="fitXY"
         android:layout_height="220dp"/>
     <TextView
         android:id="@+id/tv_courseTitle_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:text="course title"/>
     <TextView
@@ -63,7 +64,7 @@
         android:id="@+id/tv_coursePrice_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         android:text="100.000d"/>
 

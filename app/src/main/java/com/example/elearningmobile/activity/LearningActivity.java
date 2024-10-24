@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -40,6 +42,19 @@ public class LearningActivity extends AppCompatActivity {
 
     private void setEvent() {
         if (courseLearningVm != null) {
+
+            Uri videoUri = Uri.parse("");
+
+            // Set the video URI
+            vv_learning.setVideoURI(videoUri);
+
+            // Create and set MediaController to allow play/pause controls
+            MediaController mediaController = new MediaController(this);
+            mediaController.setAnchorView(vv_learning);
+            vv_learning.setMediaController(mediaController);
+
+            // Start the video
+            vv_learning.start();
             curriculumLearningRecycleAdapter = new CurriculumLearningRecycleAdapter(courseLearningVm, this);
             rc_lectures_learning.setAdapter(curriculumLearningRecycleAdapter);
             rc_lectures_learning.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));

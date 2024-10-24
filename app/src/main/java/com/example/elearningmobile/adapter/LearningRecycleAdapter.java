@@ -1,9 +1,13 @@
 package com.example.elearningmobile.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -12,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.elearningmobile.R;
+import com.example.elearningmobile.activity.LearningActivity;
+import com.example.elearningmobile.activity.OrderDetailActivity;
 import com.example.elearningmobile.model.cart.CartListGetVM;
 import com.example.elearningmobile.model.course.CourseListGetVM;
 import com.example.elearningmobile.model.learning.LearningCourseVM;
@@ -24,10 +30,14 @@ public class LearningRecycleAdapter extends RecyclerView.Adapter<LearningRecycle
 
     private List<LearningCourseVM> learningCourseVMS;
 
+    private Context context;
+
     private static final String progressFormat = "%d complete";
 
-    public LearningRecycleAdapter(List<LearningCourseVM> learningCourseVMS) {
+
+    public LearningRecycleAdapter(List<LearningCourseVM> learningCourseVMS, Context context) {
         this.learningCourseVMS = learningCourseVMS;
+        this.context = context;
     }
 
     @NonNull
@@ -53,6 +63,17 @@ public class LearningRecycleAdapter extends RecyclerView.Adapter<LearningRecycle
         }else {
             holder.tv_coursePrice_learning.setText("completed");
         }
+
+        holder.ll_courseLearning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, LearningActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("slug", courseListGetVM.getSlug());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -65,8 +86,11 @@ public class LearningRecycleAdapter extends RecyclerView.Adapter<LearningRecycle
         TextView tv_courseTitle_learning, tv_courseInstructor_learning, tv_coursePrice_learning;
         ProgressBar pb_rating_learning;
 
+        LinearLayout ll_courseLearning;
+
         public CourseHolder(@NonNull View itemView) {
             super(itemView);
+            ll_courseLearning = itemView.findViewById(R.id.ll_courseLearning);
             iv_course_learning = itemView.findViewById(R.id.iv_course_learning);
             tv_courseTitle_learning = itemView.findViewById(R.id.tv_courseTitle_learning);
             tv_courseInstructor_learning = itemView.findViewById(R.id.tv_courseInstructor_learning);

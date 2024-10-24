@@ -65,7 +65,10 @@ public class LectureLearningRecycleAdapter extends RecyclerView.Adapter<LectureL
                 if (context instanceof LearningActivity) {
                     if (curriculum instanceof  LectureVm) {
                         ((LearningActivity) context).vv_learning.seekTo((int) ((LectureVm) curriculum).getDuration());
-                        holder.ll_lecture_learning.setBackgroundColor(R.color.border);
+                        holder.ll_lecture_learning.setBackgroundColor(R.color.activeLecture);
+
+                        // update learning for student
+
                     }
                 }
             }

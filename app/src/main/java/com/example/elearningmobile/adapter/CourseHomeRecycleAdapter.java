@@ -1,16 +1,23 @@
 package com.example.elearningmobile.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.elearningmobile.R;
+import com.example.elearningmobile.activity.CourseDetailActivity;
 import com.example.elearningmobile.model.course.CourseListGetVM;
 import com.example.elearningmobile.ultity.PriceFormatter;
 import com.squareup.picasso.Picasso;
@@ -21,8 +28,11 @@ public class CourseHomeRecycleAdapter extends RecyclerView.Adapter<CourseHomeRec
 
     private List<CourseListGetVM> courses;
 
-    public CourseHomeRecycleAdapter(List<CourseListGetVM> courseListGetVMS) {
-        this.courses = courseListGetVMS;
+    private Context context;
+
+    public CourseHomeRecycleAdapter(List<CourseListGetVM> courses, Context context) {
+        this.courses = courses;
+        this.context = context;
     }
 
     @NonNull
@@ -36,15 +46,22 @@ public class CourseHomeRecycleAdapter extends RecyclerView.Adapter<CourseHomeRec
     public void onBindViewHolder(@NonNull CourseHomeRecycleAdapter.CourseHolder holder, int position) {
         CourseListGetVM courseListGetVM = courses.get(position);
         Long price = courseListGetVM.getPrice();
-
-        // set data for view holder
         Picasso.get().load(courseListGetVM.getImage()).into(holder.iv_course_home);
         holder.tv_courseTitle_home.setText(courseListGetVM.getTitle());
         holder.tv_courseInstructor_home.setText(courseListGetVM.getCreatedBy());
         holder.tv_courseRating_home.setText(courseListGetVM.getAverageRating()+"");
         holder.tv_coursePrice_home.setText(PriceFormatter.formatPriceInVND(price));
         holder.rb_courseRating_home.setRating((float) courseListGetVM.getAverageRating());
-
+        holder.ll_courseHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CourseDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putLong("courseId", courseListGetVM.getId());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -56,9 +73,11 @@ public class CourseHomeRecycleAdapter extends RecyclerView.Adapter<CourseHomeRec
         ImageView iv_course_home;
         TextView tv_courseTitle_home, tv_courseInstructor_home, tv_courseRating_home, tv_coursePrice_home ;
 
+        LinearLayout ll_courseHome;
         RatingBar rb_courseRating_home;
         public CourseHolder(@NonNull View itemView) {
             super(itemView);
+            ll_courseHome = itemView.findViewById(R.id.ll_courseHome);
             iv_course_home = itemView.findViewById(R.id.iv_course_home);
             tv_courseTitle_home = itemView.findViewById(R.id.tv_courseTitle_home);
             tv_courseInstructor_home = itemView.findViewById(R.id.tv_courseInstructor_home);

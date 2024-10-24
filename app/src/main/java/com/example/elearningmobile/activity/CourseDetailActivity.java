@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -19,10 +21,12 @@ import com.example.elearningmobile.adapter.StringRecycleAdapter;
 import com.example.elearningmobile.api.CourseApi;
 import com.example.elearningmobile.api.ReviewApi;
 import com.example.elearningmobile.model.CourseDetailType;
+import com.example.elearningmobile.model.Curriculum;
 import com.example.elearningmobile.model.PageableData;
 import com.example.elearningmobile.model.course.CourseVM;
 import com.example.elearningmobile.model.order.OrderVM;
 import com.example.elearningmobile.model.review.ReviewVM;
+import com.example.elearningmobile.model.section.SectionVM;
 import com.example.elearningmobile.ultity.PriceFormatter;
 import com.squareup.picasso.Picasso;
 
@@ -47,7 +51,7 @@ public class CourseDetailActivity extends AppCompatActivity {
 
     private Long courseId;
 
-    private CourseVM course = null;
+    private CourseVM course = new CourseVM();
 
     private StringRecycleAdapter objectiveRecycleAdapter, requirementRecycleAdapter;
 
@@ -55,6 +59,11 @@ public class CourseDetailActivity extends AppCompatActivity {
     private ReviewRecycleAdapter reviewRecycleAdapter;
 
     private List<ReviewVM> reviewVMList = new ArrayList<>();
+
+    private Button btn_backCourseDetail;
+
+
+    private List<SectionVM> sectionVMS = new ArrayList<>();
 
 
     @Override
@@ -67,45 +76,39 @@ public class CourseDetailActivity extends AppCompatActivity {
 
     public void setCourse(CourseVM course) {
         this.course = course;
-        curriculumRecycleAdapter.notifyDataSetChanged();
+        if (course.getSections().size() > 0) {
+
+        }
     }
 
     private void setEvent() {
-        if (course != null) {
-            tv_courseTitle_courseDetail.setText(course.getTitle());
-            tv_courseDesc_courseDetail.setText(Html.fromHtml(course.getDescription()));
-            tv_courseRating_courseDetail.setText(course.getAverageRating()+"");
-            rb_courseRating_courseDetail.setRating((float) course.getAverageRating());
-            tv_ratingCount_courseDetail.setText(course.getRatingCount());
-            tv_coursePrice_courseDetail.setText(PriceFormatter.formatPriceInVND(course.getPrice()));
-            Picasso.get().load(course.getUser().getPhoto()).into(iv_instructorPhoto_courseDetail);
-            tv_instructorName_courseDetail.setText(course.getUser().getFullName());
-
-            tv_ratingInstructor_courseDetail.setText(course.getUser().getAverageRating() + "");
-            tv_reviewCountInstructor_courseDetail.setText(course.getUser().getNumberOfReview());
-            tv_studentCountInstructor_courseDetail.setText(course.getUser().getNumberOfStudent());
+        reviewRecycleAdapter = new ReviewRecycleAdapter(reviewVMList);
+        rc_reviews_courseDetail.setAdapter(reviewRecycleAdapter);
+        rc_reviews_courseDetail.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
 
-            objectiveRecycleAdapter = new StringRecycleAdapter(course.getObjectives(), CourseDetailType.objective);
-            rc_objectives_courseDetail.setAdapter(objectiveRecycleAdapter);
-            rc_objectives_courseDetail.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        objectiveRecycleAdapter = new StringRecycleAdapter(course.getObjectives(), CourseDetailType.objective);
+        rc_objectives_courseDetail.setAdapter(objectiveRecycleAdapter);
+        rc_objectives_courseDetail.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
-            requirementRecycleAdapter = new StringRecycleAdapter(course.getRequirements(), CourseDetailType.requirement);
-            rc_requirements_courseDetail.setAdapter(requirementRecycleAdapter);
-            rc_requirements_courseDetail.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-
-
-            curriculumRecycleAdapter = new CurriculumRecycleAdapter(course, this);
-            rc_curriculum_courseDetail.setAdapter(curriculumRecycleAdapter);
-            rc_curriculum_courseDetail.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        requirementRecycleAdapter = new StringRecycleAdapter(course.getRequirements(), CourseDetailType.requirement);
+        rc_requirements_courseDetail.setAdapter(requirementRecycleAdapter);
+        rc_requirements_courseDetail.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
 
-            reviewRecycleAdapter = new ReviewRecycleAdapter(reviewVMList);
-            rc_reviews_courseDetail.setAdapter(reviewRecycleAdapter);
-            rc_reviews_courseDetail.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        curriculumRecycleAdapter = new CurriculumRecycleAdapter(sectionVMS, this);
+        rc_curriculum_courseDetail.setAdapter(curriculumRecycleAdapter);
+        rc_curriculum_courseDetail.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
-        }
 
+
+
+        btn_backCourseDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
 
@@ -123,8 +126,28 @@ public class CourseDetailActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<CourseVM> call, Response<CourseVM> response) {
                     if (response.body() != null) {
-                        course = response.body();
+                        CourseVM body = response.body();
+                        course = body;
+                        if (course.getId() != null) {
+                            tv_courseTitle_courseDetail.setText(course.getTitle());
+                            tv_courseDesc_courseDetail.setText(Html.fromHtml(course.getDescription()));
+                            tv_courseRating_courseDetail.setText(course.getAverageRating()+"");
+                            rb_courseRating_courseDetail.setRating((float) course.getAverageRating());
+                            tv_ratingCount_courseDetail.setText(course.getRatingCount() + "");
+                            tv_coursePrice_courseDetail.setText(PriceFormatter.formatPriceInVND(course.getPrice()));
+                            Picasso.get().load(course.getUser().getPhoto()).into(iv_instructorPhoto_courseDetail);
+                            tv_instructorName_courseDetail.setText(course.getUser().getFullName());
+                            tv_ratingInstructor_courseDetail.setText(course.getUser().getAverageRating() + "");
+                            tv_reviewCountInstructor_courseDetail.setText(course.getUser().getNumberOfReview() + "");
+                            tv_studentCountInstructor_courseDetail.setText(course.getUser().getNumberOfStudent() + "");
+
+                        }
+                        List<SectionVM> sectionVMList = body.getSections();
+                        sectionVMS.addAll(sectionVMList);
                         curriculumRecycleAdapter.notifyDataSetChanged();
+                        objectiveRecycleAdapter.notifyDataSetChanged();
+                        requirementRecycleAdapter.notifyDataSetChanged();
+
                     }
                 }
 
@@ -143,8 +166,10 @@ public class CourseDetailActivity extends AppCompatActivity {
                 public void onResponse(Call<PageableData<ReviewVM>> call, Response<PageableData<ReviewVM>> response) {
                     if (response.body() != null) {
                         List<ReviewVM> reviewVMS = response.body().getContent();
-                        reviewVMList.addAll(reviewVMS);
-                        reviewRecycleAdapter.notifyDataSetChanged();
+                        if (reviewVMS.size() > 0 ) {
+                            reviewVMList.addAll(reviewVMS);
+                            reviewRecycleAdapter.notifyDataSetChanged();
+                        }
                     }
                 }
 
@@ -174,6 +199,9 @@ public class CourseDetailActivity extends AppCompatActivity {
         tv_studentCountInstructor_courseDetail = findViewById(R.id.tv_studentCountInstructor_courseDetail);
         rc_requirements_courseDetail = findViewById(R.id.rc_requirements_courseDetail);
         iv_instructorPhoto_courseDetail = findViewById(R.id.iv_instructorPhoto_courseDetail);
+        rc_reviews_courseDetail = findViewById(R.id.rc_reviews_courseDetail);
+        btn_backCourseDetail = findViewById(R.id.btn_backCourseDetail);
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {

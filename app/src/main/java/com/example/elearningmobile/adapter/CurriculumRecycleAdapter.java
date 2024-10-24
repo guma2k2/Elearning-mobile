@@ -25,12 +25,12 @@ import java.util.List;
 public class CurriculumRecycleAdapter extends RecyclerView.Adapter<CurriculumRecycleAdapter.CurriculumHolder>{
 
 
-    private CourseVM course ;
+    private List<SectionVM> sectionVMS = new ArrayList<>();
 
     private Context context ;
 
-    public CurriculumRecycleAdapter(CourseVM course, Context context) {
-        this.course = course;
+    public CurriculumRecycleAdapter(List<SectionVM> sectionVMS, Context context) {
+        this.sectionVMS = sectionVMS;
         this.context = context;
     }
 
@@ -44,12 +44,14 @@ public class CurriculumRecycleAdapter extends RecyclerView.Adapter<CurriculumRec
     @Override
     public void onBindViewHolder(@NonNull CurriculumRecycleAdapter.CurriculumHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.tv_sectionNum.setText(position + 1 + "");
-        SectionVM sectionVM = course.getSections().get(position);
+        SectionVM sectionVM = sectionVMS.get(position);
         holder.tv_sectionTitle.setText(sectionVM.getTitle());
         List<Curriculum> curriculumList = sectionVM.getCurriculums();
-        LectureRecycleAdapter lectureRecycleAdapter = new LectureRecycleAdapter(curriculumList, course.getSections());
-        holder.rc_lectures.setAdapter(lectureRecycleAdapter);
-        holder.rc_lectures.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
+        if (curriculumList.size() > 0) {
+            LectureRecycleAdapter lectureRecycleAdapter = new LectureRecycleAdapter(curriculumList, sectionVMS);
+            holder.rc_lectures.setAdapter(lectureRecycleAdapter);
+            holder.rc_lectures.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
+        }
 
         if (sectionVM.isToggle()) {
             holder.rc_lectures.setVisibility(View.VISIBLE);
@@ -62,9 +64,9 @@ public class CurriculumRecycleAdapter extends RecyclerView.Adapter<CurriculumRec
         holder.iv_toggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                course.getSections().get(position).setToggle(!sectionVM.isToggle());
+                sectionVMS.get(position).setToggle(!sectionVM.isToggle());
                 if (context instanceof CourseDetailActivity) {
-                    ((CourseDetailActivity) context).setCourse(course);
+//                        ((CourseDetailActivity) context).setCourse(course);
                 }
             }
         });
@@ -72,7 +74,7 @@ public class CurriculumRecycleAdapter extends RecyclerView.Adapter<CurriculumRec
 
     @Override
     public int getItemCount() {
-        return course.getSections().size();
+        return sectionVMS.size();
     }
 
     class CurriculumHolder extends RecyclerView.ViewHolder{
