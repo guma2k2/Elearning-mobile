@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -74,11 +75,9 @@ public class CourseDetailActivity extends AppCompatActivity {
         setEvent();
     }
 
-    public void setCourse(CourseVM course) {
-        this.course = course;
-        if (course.getSections().size() > 0) {
 
-        }
+    public void setSectionVMS(List<SectionVM> sectionVMList) {
+        curriculumRecycleAdapter.notifyDataSetChanged();
     }
 
     private void setEvent() {
@@ -106,11 +105,18 @@ public class CourseDetailActivity extends AppCompatActivity {
         btn_backCourseDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                redirectToHomePage();
             }
         });
     }
 
+    private void redirectToHomePage() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putLong("fragment", R.id.nav_home);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
 
 
     @Override

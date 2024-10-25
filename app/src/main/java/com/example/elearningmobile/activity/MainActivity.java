@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
             else if (fragment == R.id.nav_search){
                 redirectSearchFragment();
                 bottom_navigation.setSelectedItemId(R.id.nav_search);
+            } else if (fragment == R.id.nav_home){
+                redirectHomeFragment();
+                bottom_navigation.setSelectedItemId(R.id.nav_home);
             }
         }
 

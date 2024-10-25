@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -14,10 +17,17 @@ import com.example.elearningmobile.R;
 import com.example.elearningmobile.adapter.LearningRecycleAdapter;
 import com.example.elearningmobile.adapter.learning.CurriculumLearningRecycleAdapter;
 import com.example.elearningmobile.api.CourseApi;
+import com.example.elearningmobile.model.Curriculum;
+import com.example.elearningmobile.model.LectureVm;
 import com.example.elearningmobile.model.course.CourseLearningVm;
 import com.example.elearningmobile.model.course.CourseListGetVM;
 import com.example.elearningmobile.model.course.CourseVM;
 import com.example.elearningmobile.model.order.OrderVM;
+import com.example.elearningmobile.model.section.SectionVM;
+import com.example.elearningmobile.variable.GlobalVariable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +40,10 @@ public class LearningActivity extends AppCompatActivity {
 
     private CourseLearningVm courseLearningVm;
 
+    private List<SectionVM> sectionVMList = new ArrayList<>();
+
+    private Button btn_back_to_learning;
+
     private CurriculumLearningRecycleAdapter curriculumLearningRecycleAdapter;
 
     @Override
@@ -41,39 +55,58 @@ public class LearningActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
-        if (courseLearningVm != null) {
 
-            Uri videoUri = Uri.parse("");
+        curriculumLearningRecycleAdapter = new CurriculumLearningRecycleAdapter(sectionVMList, this);
+        rc_lectures_learning.setAdapter(curriculumLearningRecycleAdapter);
+        rc_lectures_learning.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
-            // Set the video URI
-            vv_learning.setVideoURI(videoUri);
+        btn_back_to_learning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redirectToLearning();
+            }
+        });
 
-            // Create and set MediaController to allow play/pause controls
-            MediaController mediaController = new MediaController(this);
-            mediaController.setAnchorView(vv_learning);
-            vv_learning.setMediaController(mediaController);
+    }
 
-            // Start the video
-            vv_learning.start();
-            curriculumLearningRecycleAdapter = new CurriculumLearningRecycleAdapter(courseLearningVm, this);
-            rc_lectures_learning.setAdapter(curriculumLearningRecycleAdapter);
-            rc_lectures_learning.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        }
-
+    private void redirectToLearning() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putLong("fragment", R.id.nav_learning);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
 
     void getCourseLearning () {
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String slug = extras.getString("slug");
+
+        GlobalVariable globalVariable = (GlobalVariable) getApplication();
+//        if (extras != null) {
+//            String slug = extras.getString("slug");
+            String slug = "my-course-is-number-one";
+
+//            String token = globalVariable.getAccess_token();
+
+            String token = "eyJhbGciOiJIUzI1NiJ9.eyJzY29wZXMiOlsiUk9MRV9TVFVERU5UIl0sInN1YiI6Im4yMGRjY24xNTNAc3R1ZGVudC5wdGl0aGNtLmVkdS52biIsImlhdCI6MTcyOTg1ODY3NywiZXhwIjoxNzMxMTU0Njc3fQ.YhTZw-J-J0yZwkFijZfrsreQrHWMSBMWhV_M5y2lOug";
+
+            String bearerToken = "Bearer " + token;
             if (slug != null && slug != "") {
-                CourseApi.courseApi.getCoursesBySlug(slug).enqueue(new Callback<CourseLearningVm>() {
+
+                CourseApi.courseApi.getCoursesBySlug(slug, bearerToken).enqueue(new Callback<CourseLearningVm>() {
                     @Override
                     public void onResponse(Call<CourseLearningVm> call, Response<CourseLearningVm> response) {
                         if (response != null) {
                             CourseLearningVm body = response.body();
                             courseLearningVm = body;
+                            sectionVMList.addAll(body.getCourse().getSections());
+                            Curriculum curriculum = getCurrentCurriculum(courseLearningVm.getSectionId(), courseLearningVm.getCurriculumId())  ;
+                            if (curriculum instanceof LectureVm) {
+                                String videoId = "https://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4";
+                                vv_learning.setVideoPath(videoId);
+                                vv_learning.start();
+                            }
+
                             curriculumLearningRecycleAdapter.notifyDataSetChanged();
                         }
                     }
@@ -84,7 +117,22 @@ public class LearningActivity extends AppCompatActivity {
                     }
                 });
             }
+//        }
+    }
+
+    private Curriculum getCurrentCurriculum(Long sectionId, Long curriculumId) {
+        for (SectionVM section : sectionVMList) {
+            if (section.getId().equals(sectionId)) {
+                // Iterate over the curriculum list in the found section
+                for (Curriculum curriculum : section.getCurriculums()) {
+                    if (curriculum.getId().equals(curriculumId)) {
+                        return curriculum;
+                    }
+                }
+            }
         }
+        // Return null if no matching curriculum is found
+        return null;
     }
 
     @Override
@@ -96,5 +144,7 @@ public class LearningActivity extends AppCompatActivity {
     private void setControl() {
         rc_lectures_learning= findViewById(R.id.rc_lectures_learning);
         vv_learning= findViewById(R.id.vv_learning);
+
+        btn_back_to_learning = findViewById(R.id.btn_back_to_learning);
     }
 }

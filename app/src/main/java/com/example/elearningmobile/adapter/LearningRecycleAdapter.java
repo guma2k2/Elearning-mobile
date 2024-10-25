@@ -51,7 +51,6 @@ public class LearningRecycleAdapter extends RecyclerView.Adapter<LearningRecycle
     public void onBindViewHolder(@NonNull LearningRecycleAdapter.CourseHolder holder, int position) {
         LearningCourseVM learningCourseVM = learningCourseVMS.get(position);
         CourseListGetVM courseListGetVM = learningCourseVM.getCourse();
-        Long price = courseListGetVM.getPrice();
 
         // set data for view holder
         Picasso.get().load(courseListGetVM.getImage()).into(holder.iv_course_learning);

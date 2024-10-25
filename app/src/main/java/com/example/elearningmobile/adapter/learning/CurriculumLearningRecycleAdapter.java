@@ -18,17 +18,19 @@ import com.example.elearningmobile.model.course.CourseLearningVm;
 import com.example.elearningmobile.model.course.CourseVM;
 import com.example.elearningmobile.model.section.SectionVM;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CurriculumLearningRecycleAdapter extends RecyclerView.Adapter<CurriculumLearningRecycleAdapter.CurriculumHolder>{
 
 
-    private CourseLearningVm courseLearningVm;
+    private List<SectionVM> sectionVMS = new ArrayList<>();
 
     private Context context ;
 
-    public CurriculumLearningRecycleAdapter(CourseLearningVm courseLearningVm, Context context) {
-        this.courseLearningVm = courseLearningVm;
+
+    public CurriculumLearningRecycleAdapter(List<SectionVM> sectionVMS, Context context) {
+        this.sectionVMS = sectionVMS;
         this.context = context;
     }
 
@@ -42,18 +44,17 @@ public class CurriculumLearningRecycleAdapter extends RecyclerView.Adapter<Curri
     @Override
     public void onBindViewHolder(@NonNull CurriculumLearningRecycleAdapter.CurriculumHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.tv_sectionNum_learning.setText(position + 1 + "");
-        CourseVM course = courseLearningVm.getCourse();
-        SectionVM sectionVM = course.getSections().get(position);
+        SectionVM sectionVM = sectionVMS.get(position);
         holder.tv_sectionTitle_learning.setText(sectionVM.getTitle());
         List<Curriculum> curriculumList = sectionVM.getCurriculums();
-        LectureLearningRecycleAdapter lectureRecycleAdapter = new LectureLearningRecycleAdapter(curriculumList, course.getSections(), context, courseLearningVm);
+        LectureLearningRecycleAdapter lectureRecycleAdapter = new LectureLearningRecycleAdapter(curriculumList, sectionVMS, context);
         holder.rc_lectures_learning.setAdapter(lectureRecycleAdapter);
         holder.rc_lectures_learning.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
     }
 
     @Override
     public int getItemCount() {
-        return courseLearningVm.getCourse().getSections().size();
+        return sectionVMS.size();
     }
 
     class CurriculumHolder extends RecyclerView.ViewHolder{

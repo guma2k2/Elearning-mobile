@@ -45,7 +45,7 @@ public class FilterFragment extends Fragment {
     private String categoryName;
     private List<CourseListGetVM> courseListGetVMList = new ArrayList<>();
 
-    private List<CategoryListGetVM> categories;
+    private List<CategoryListGetVM> categories = new ArrayList<>();
 
     private FilterRecycleAdapter filterRecycleAdapter;
 
@@ -71,9 +71,9 @@ public class FilterFragment extends Fragment {
         rc_filter.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
 
 
-        courseRecycleAdapter = new CourseRecycleAdapter(courseListGetVMList);
-        rc_courses_filter.setAdapter(courseRecycleAdapter);
-        rc_courses_filter.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
+//        courseRecycleAdapter = new CourseRecycleAdapter(courseListGetVMList);
+//        rc_courses_filter.setAdapter(courseRecycleAdapter);
+//        rc_courses_filter.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
 
 
         btn_filter.setOnClickListener(new View.OnClickListener() {
@@ -85,9 +85,9 @@ public class FilterFragment extends Fragment {
         });
 
         if (keyword != "" || categoryName != null) {
-            rc_filter.setVisibility(View.GONE);
-        } else {
             rc_filter.setVisibility(View.VISIBLE);
+        } else {
+            rc_filter.setVisibility(View.GONE);
         }
         sv_courseFilter.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

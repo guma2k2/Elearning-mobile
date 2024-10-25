@@ -29,14 +29,11 @@ public class LectureLearningRecycleAdapter extends RecyclerView.Adapter<LectureL
 
     private Context context;
 
-    private CourseLearningVm courseLearningVm;
 
-
-    public LectureLearningRecycleAdapter(List<Curriculum> curriculumList, List<SectionVM> sectionVMS, Context context, CourseLearningVm courseLearningVm) {
+    public LectureLearningRecycleAdapter(List<Curriculum> curriculumList, List<SectionVM> sectionVMS, Context context) {
         this.curriculumList = curriculumList;
         this.sectionVMS = sectionVMS;
         this.context = context;
-        this.courseLearningVm = courseLearningVm;
     }
 
     @NonNull

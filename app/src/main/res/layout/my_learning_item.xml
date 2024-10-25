@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:paddingVertical="10dp"
     android:layout_marginBottom="10dp"
-    android:background="#A39D9E"
     android:id="@+id/ll_courseLearning"
     android:layout_height="wrap_content">
     <ImageView
