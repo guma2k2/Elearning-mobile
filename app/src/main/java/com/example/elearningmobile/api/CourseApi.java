@@ -1,7 +1,9 @@
 package com.example.elearningmobile.api;
 
+import com.example.elearningmobile.adapter.CurriculumTypeAdapter;
 import com.example.elearningmobile.model.AuthenticationPostVm;
 import com.example.elearningmobile.model.AuthenticationResponse;
+import com.example.elearningmobile.model.Curriculum;
 import com.example.elearningmobile.model.course.CourseLearningVm;
 import com.example.elearningmobile.model.course.CourseListGetVM;
 import com.example.elearningmobile.model.course.CourseVM;
@@ -18,12 +20,15 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface CourseApi {
-    Gson gson = new GsonBuilder().create();
+    Gson gson = new GsonBuilder()
+            .registerTypeAdapter(Curriculum.class, new CurriculumTypeAdapter())
+            .create();
     OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.MINUTES.SECONDS)
             .readTimeout(30, TimeUnit.MINUTES.SECONDS)
@@ -36,6 +41,9 @@ public interface CourseApi {
             .build().
             create(CourseApi.class);
 
+    @GET("{slug}/learn")
+    Call<CourseLearningVm> getCoursesBySlug(@Path("slug") String slug, @Header("Authorization") String token);
+
     // get course by category
     @GET("category/{categoryId}")
     Call<List<CourseListGetVM>> getCourseByCategory(@Path("categoryId") Integer categoryId);
@@ -45,8 +53,7 @@ public interface CourseApi {
     Call<CourseVM> getCourseById(@Path("courseId") Long courseId);
 
 
-    @GET("{slug}/learn")
-    Call<CourseLearningVm> getCoursesBySlug(@Query("slug")String slug);
+
 
     @GET("search")
     Call<List<CourseListGetVM>> getCoursesByMultiQuery();

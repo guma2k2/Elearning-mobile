@@ -10,9 +10,6 @@ public class QuizVM extends Curriculum {
 
     private boolean finished;
 
-    private String type = "quiz";
-
-
     public QuizVM(String description, List<QuestionVM> questions, boolean finished) {
         this.description = description;
         this.questions = questions;

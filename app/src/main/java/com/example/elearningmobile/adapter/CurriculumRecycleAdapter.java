@@ -64,9 +64,10 @@ public class CurriculumRecycleAdapter extends RecyclerView.Adapter<CurriculumRec
         holder.iv_toggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sectionVMS.get(position).setToggle(!sectionVM.isToggle());
+                boolean newStatus = !sectionVM.isToggle();
+                sectionVMS.get(position).setToggle(newStatus);
                 if (context instanceof CourseDetailActivity) {
-//                        ((CourseDetailActivity) context).setCourse(course);
+                    ((CourseDetailActivity) context).setSectionVMS(sectionVMS);
                 }
             }
         });

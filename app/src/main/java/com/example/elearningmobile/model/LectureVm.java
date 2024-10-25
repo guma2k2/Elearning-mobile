@@ -11,7 +11,6 @@ public class LectureVm extends Curriculum   {
     private boolean finished;
     private int watchingSecond = 0;
 
-    private String type = "lecture";
 
     public LectureVm(String videoId, String lectureDetails, float duration, String formattedDuration, boolean finished, int watchingSecond) {
         this.videoId = videoId;
