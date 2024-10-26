@@ -44,7 +44,10 @@ public class LearningActivity extends AppCompatActivity {
 
     private Button btn_back_to_learning;
 
-    private CurriculumLearningRecycleAdapter curriculumLearningRecycleAdapter;
+    public Long curriculumId ;
+    public String type;
+
+    public CurriculumLearningRecycleAdapter curriculumLearningRecycleAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,11 +103,12 @@ public class LearningActivity extends AppCompatActivity {
                             CourseLearningVm body = response.body();
                             courseLearningVm = body;
                             sectionVMList.addAll(body.getCourse().getSections());
+                            type = body.getType();
+                            curriculumId = body.getCurriculumId();
                             Curriculum curriculum = getCurrentCurriculum(courseLearningVm.getSectionId(), courseLearningVm.getCurriculumId())  ;
                             if (curriculum instanceof LectureVm) {
-                                String videoId = "https://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4";
-                                vv_learning.setVideoPath(videoId);
-                                vv_learning.start();
+                                String videoUrl = ((LectureVm) curriculum).getVideoId();
+                                runVideo(videoUrl);
                             }
 
                             curriculumLearningRecycleAdapter.notifyDataSetChanged();
@@ -118,6 +122,20 @@ public class LearningActivity extends AppCompatActivity {
                 });
             }
 //        }
+    }
+
+    public void runVideo(String url) {
+        Uri uri = Uri.parse(url);
+
+        // Set up the MediaController
+        MediaController mediaController = new MediaController(getApplicationContext());
+        mediaController.setAnchorView(vv_learning);
+        vv_learning.setMediaController(mediaController);
+
+        // Set the URI and start the video
+        vv_learning.setVideoURI(uri);
+        vv_learning.requestFocus();
+        vv_learning.start();
     }
 
     private Curriculum getCurrentCurriculum(Long sectionId, Long curriculumId) {
