@@ -71,9 +71,9 @@ public class FilterFragment extends Fragment {
         rc_filter.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
 
 
-//        courseRecycleAdapter = new CourseRecycleAdapter(courseListGetVMList);
-//        rc_courses_filter.setAdapter(courseRecycleAdapter);
-//        rc_courses_filter.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
+        courseRecycleAdapter = new CourseRecycleAdapter(courseListGetVMList);
+        rc_courses_filter.setAdapter(courseRecycleAdapter);
+        rc_courses_filter.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
 
 
         btn_filter.setOnClickListener(new View.OnClickListener() {

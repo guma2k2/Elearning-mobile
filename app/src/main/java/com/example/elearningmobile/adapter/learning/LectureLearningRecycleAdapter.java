@@ -43,11 +43,20 @@ public class LectureLearningRecycleAdapter extends RecyclerView.Adapter<LectureL
         return new LectureLearningRecycleAdapter.LectureHolder(view);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull LectureLearningRecycleAdapter.LectureHolder holder, int position) {
         Curriculum curriculum = curriculumList.get(position);
         holder.tv_lectureNum_learning.setText(getLectureNum(position)+"");
         holder.tv_lectureName_learning.setText(curriculum.getTitle());
+
+
+        if (context instanceof LearningActivity) {
+            if (curriculum.getId() == ((LearningActivity) context).curriculumId &&
+                    curriculum.getType().name().equals(((LearningActivity) context).type)) {
+                holder.ll_lecture_learning.setBackgroundColor(R.color.activeLecture);
+            }
+        }
         if (curriculum instanceof LectureVm) {
             holder.tv_lectureDesc_learning.setText(curriculum.getType() + " - " + ((LectureVm) curriculum).getDuration() );
         } else {
@@ -61,11 +70,11 @@ public class LectureLearningRecycleAdapter extends RecyclerView.Adapter<LectureL
             public void onClick(View v) {
                 if (context instanceof LearningActivity) {
                     if (curriculum instanceof  LectureVm) {
-                        ((LearningActivity) context).vv_learning.seekTo((int) ((LectureVm) curriculum).getDuration());
-                        holder.ll_lecture_learning.setBackgroundColor(R.color.activeLecture);
-
-                        // update learning for student
-
+                        String url = ((LectureVm) curriculum).getVideoId();
+                        ((LearningActivity) context).runVideo(url);
+                        ((LearningActivity) context).curriculumId = curriculum.getId();
+                        ((LearningActivity) context).type = curriculum.getType().name();
+                        ((LearningActivity) context).curriculumLearningRecycleAdapter.notifyDataSetChanged();
                     }
                 }
             }
