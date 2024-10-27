@@ -51,6 +51,10 @@ public class FilterFragment extends Fragment {
 
     private CourseRecycleAdapter courseRecycleAdapter;
 
+    private Boolean[] free;
+    private String[] level;
+    private Float rating;
+
     public FilterFragment(Context context) {
         this.context = context;
     }
@@ -65,8 +69,26 @@ public class FilterFragment extends Fragment {
         return view;
     }
 
+    public void setFree(Boolean[] free) {
+        this.free = free;
+        setCourses();
+
+    }
+
+    public void setLevel(String[] level) {
+        this.level = level;
+        setCourses();
+
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+        setCourses();
+
+    }
+
     private void setEvent() {
-        filterRecycleAdapter = new FilterRecycleAdapter(context, categories);
+        filterRecycleAdapter = new FilterRecycleAdapter(this, categories);
         rc_filter.setAdapter(filterRecycleAdapter);
         rc_filter.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
 
@@ -128,7 +150,7 @@ public class FilterFragment extends Fragment {
 
     private void setCourses() {
         if (keyword != null || keyword != "") {
-            CourseApi.courseApi.getCoursesByMultiQuery(keyword).enqueue(new Callback<List<CourseListGetVM>>() {
+            CourseApi.courseApi.getCoursesByMultiQuery(keyword, free, rating, level, categoryName ).enqueue(new Callback<List<CourseListGetVM>>() {
                 @Override
                 public void onResponse(Call<List<CourseListGetVM>> call, Response<List<CourseListGetVM>> response) {
                     List<CourseListGetVM> courses = response.body();
@@ -145,10 +167,12 @@ public class FilterFragment extends Fragment {
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+        setCourses();
     }
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+        setCourses();
     }
 
     private void setControl(View view) {
