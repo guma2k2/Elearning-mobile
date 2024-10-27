@@ -55,22 +55,17 @@ public interface CourseApi {
 
 
 
-    @GET("search")
-    Call<List<CourseListGetVM>> getCoursesByMultiQuery();
+
+
+
+
 
 
     @GET("search")
-    Call<List<CourseListGetVM>> getCoursesByMultiQuery(@Query("keyword")String keyword);
+    Call<List<CourseListGetVM>> getCoursesByMultiQuery(@Query("keyword")String keyword,
+                                                       @Query("level") Boolean[] free,
+                                                       @Query("ratingStar")Float ratingStar,
+                                                       @Query("level") String[] level,
+                                                       @Query("categoryName")String categoryName);
 
-    @GET("search")
-    Call<List<CourseListGetVM>> getCoursesByMultiQuery(@Query("ratingStar")Float ratingStar);
-
-    @GET("search")
-    Call<List<CourseListGetVM>> getCoursesByMultiQuery(@Query("level")String[] level);
-
-    @GET("search")
-    Call<List<CourseListGetVM>> getCoursesByMultiQuery(@Query("free")Boolean[] free);
-
-    @GET("search")
-    Call<List<CourseListGetVM>> getCoursesByMultiQueryCategory(@Query("categoryName")String categoryName);
 }

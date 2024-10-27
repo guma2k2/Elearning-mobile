@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.elearningmobile.R;
+import com.example.elearningmobile.fragment.FilterFragment;
 import com.example.elearningmobile.model.CourseDetailType;
 import com.example.elearningmobile.model.category.CategoryListGetVM;
 
@@ -20,13 +21,12 @@ import java.util.List;
 
 public class FilterRecycleAdapter extends RecyclerView.Adapter<FilterRecycleAdapter.StringHolder>{
 
-    private Context context;
 
+    FilterFragment fragment;
     private List<CategoryListGetVM> categoryListGetVMList;
 
-
-    public FilterRecycleAdapter(Context context, List<CategoryListGetVM> categoryListGetVMList) {
-        this.context = context;
+    public FilterRecycleAdapter(FilterFragment fragment, List<CategoryListGetVM> categoryListGetVMList) {
+        this.fragment = fragment;
         this.categoryListGetVMList = categoryListGetVMList;
     }
 
@@ -44,7 +44,7 @@ public class FilterRecycleAdapter extends RecyclerView.Adapter<FilterRecycleAdap
         holder.cl_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                fragment.setCategoryName(categoryListGetVM.getName());
             }
         });
     }
