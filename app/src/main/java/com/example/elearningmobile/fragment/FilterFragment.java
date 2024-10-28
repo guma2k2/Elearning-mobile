@@ -53,7 +53,7 @@ public class FilterFragment extends Fragment {
 
     private Boolean[] free;
     private String[] level;
-    private Float rating;
+    private Float[] rating;
 
     public FilterFragment(Context context) {
         this.context = context;
@@ -78,10 +78,9 @@ public class FilterFragment extends Fragment {
     public void setLevel(String[] level) {
         this.level = level;
         setCourses();
-
     }
 
-    public void setRating(Float rating) {
+    public void setRating(Float[] rating) {
         this.rating = rating;
         setCourses();
 
@@ -101,8 +100,7 @@ public class FilterFragment extends Fragment {
         btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FilterBottomFragment bottomFragment = new FilterBottomFragment();
-                bottomFragment.show(getActivity().getSupportFragmentManager(), bottomFragment.getTag());
+                openFilterFragment();
             }
         });
 
@@ -123,6 +121,11 @@ public class FilterFragment extends Fragment {
                 return false;
             }
         });
+    }
+
+    private void openFilterFragment() {
+        FilterBottomFragment bottomFragment = new FilterBottomFragment(this);
+        bottomFragment.show(getActivity().getSupportFragmentManager(), bottomFragment.getTag());
     }
 
     @Override
