@@ -89,9 +89,82 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"/>
 
+               <!-- First level option -->
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:orientation="horizontal"
+                   android:layout_height="30dp">
+                   <CheckBox
+                       android:id="@+id/cb_beginner_filter"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"/>
+                   <TextView
+                       android:text="Beginner"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"/>
+               </LinearLayout>
+
+               <!-- Second level option -->
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:orientation="horizontal"
+                   android:layout_height="30dp">
+                   <CheckBox
+                       android:id="@+id/cb_all_levels_filter"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"/>
+                   <TextView
+                       android:text="All levels"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"/>
+               </LinearLayout>
+
+               <!-- Third level option -->
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:orientation="horizontal"
+                   android:layout_height="30dp">
+                   <CheckBox
+                       android:id="@+id/cb_intermediate_filter"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"/>
+                   <TextView
+                       android:text="Intermediate"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"/>
+               </LinearLayout>
+
+               <!-- Fourth level option -->
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:orientation="horizontal"
+                   android:layout_height="30dp">
+                   <CheckBox
+                       android:id="@+id/cb_expert_filter"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"/>
+                   <TextView
+                       android:text="Expert"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"/>
+               </LinearLayout>
+
+           </LinearLayout>
+
+
+           <LinearLayout
+               android:orientation="vertical"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+
+               <TextView
+                   android:text="Rating"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"/>
+
                <!-- RadioGroup to hold RadioButtons -->
                <RadioGroup
-                   android:id="@+id/rg_levels"
+                   android:id="@+id/rg_ratings"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:orientation="vertical">
@@ -101,11 +174,11 @@
                        android:orientation="horizontal"
                        android:layout_height="30dp">
                        <RadioButton
-                           android:id="@+id/rb_beginner_filter"
+                           android:id="@+id/rb_45_filter"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"/>
                        <TextView
-                           android:text="Beginner"
+                           android:text="4.5 &amp; up"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"/>
                    </LinearLayout>
@@ -115,11 +188,11 @@
                        android:orientation="horizontal"
                        android:layout_height="30dp">
                        <RadioButton
-                           android:id="@+id/rb_all_levels_filter"
+                           android:id="@+id/rb_40_filter"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"/>
                        <TextView
-                           android:text="All levels"
+                           android:text="4.0 &amp; up"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"/>
                    </LinearLayout>
@@ -129,11 +202,11 @@
                        android:orientation="horizontal"
                        android:layout_height="30dp">
                        <RadioButton
-                           android:id="@+id/rb_intermediate_filter"
+                           android:id="@+id/rb_35_filter"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"/>
                        <TextView
-                           android:text="Intermediate"
+                           android:text="3.5 &amp; up"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"/>
                    </LinearLayout>
@@ -143,11 +216,11 @@
                        android:orientation="horizontal"
                        android:layout_height="30dp">
                        <RadioButton
-                           android:id="@+id/rb_expert_filter"
+                           android:id="@+id/rb_30_filter"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"/>
                        <TextView
-                           android:text="Expert"
+                           android:text="3.0 &amp; up"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"/>
                    </LinearLayout>
@@ -155,71 +228,6 @@
                </RadioGroup>
            </LinearLayout>
 
-           <LinearLayout
-               android:orientation="vertical"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content">
-               <TextView
-                   android:text="Rating"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
-               <LinearLayout
-                   android:layout_width="match_parent"
-                   android:orientation="horizontal"
-                   android:layout_height="30dp">
-                   <CheckBox
-                       android:id="@+id/cb_45_filter"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content">
-                   </CheckBox>
-                   <TextView
-                       android:text="4.5 &amp; up"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"/>
-               </LinearLayout>
-               <LinearLayout
-                   android:layout_width="match_parent"
-                   android:orientation="horizontal"
-                   android:layout_height="30dp">
-                   <CheckBox
-                       android:id="@+id/cb_40_filter"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content">
-                   </CheckBox>
-                   <TextView
-                       android:text="4.0 &amp; up"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"/>
-               </LinearLayout>
-               <LinearLayout
-                   android:layout_width="match_parent"
-                   android:orientation="horizontal"
-                   android:layout_height="30dp">
-                   <CheckBox
-                       android:id="@+id/cb_35_filter"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content">
-                   </CheckBox>
-                   <TextView
-                       android:text="3.5 &amp; up"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"/>
-               </LinearLayout>
-               <LinearLayout
-                   android:layout_width="match_parent"
-                   android:orientation="horizontal"
-                   android:layout_height="30dp">
-                   <CheckBox
-                       android:id="@+id/cb_30_filter"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content">
-                   </CheckBox>
-                   <TextView
-                       android:text="3.0 &amp; up"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"/>
-               </LinearLayout>
-           </LinearLayout>
 
        </LinearLayout>
     </androidx.core.widget.NestedScrollView>

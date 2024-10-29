@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -31,15 +32,26 @@ public class FilterBottomFragment extends BottomSheetDialogFragment {
 
     private FilterFragment filterFragment;
     BottomSheetBehavior<View> bottomSheetBehavior ;
-    View rootView ;
-    RadioGroup rgLevels ;
 
-    CheckBox cb_free_filter, cb_paid_filter, cb_45_filter, cb_40_filter, cb_35_filter, cb_30_filter;
+    private final static String Intermediate = "Intermediate";
+    private final static String Beginner = "Beginner";
+
+    private final static String Expert = "Expert";
+
+    private final static String AllLevel = "AllLevel";
+
+
+
+    View rootView ;
+    RadioGroup rg_ratings ;
+
+    CheckBox cb_free_filter, cb_paid_filter, cb_beginner_filter, cb_all_levels_filter, cb_intermediate_filter, cb_expert_filter;
     TextView btn_reset_filter;
+
+    private RadioButton rb_45_filter, rb_40_filter, rb_35_filter, rb_30_filter;
     ImageView iv_dismiss_filter;
     Button btn_apply_filter;
 
-    Boolean[] free;
 
     List<Float> rating = new ArrayList<>();
     public FilterBottomFragment(FilterFragment filterFragment) {
@@ -63,28 +75,51 @@ public class FilterBottomFragment extends BottomSheetDialogFragment {
     }
 
     private void setEvent() {
-        rgLevels.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+        btn_reset_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetSearch();
+            }
+        });
+        iv_dismiss_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
+        btn_apply_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterFragment.setCourses();
+                dismiss();
+            }
+        });
+        rg_ratings.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                String[] level = new String[1];
-                if (checkedId == R.id.rb_beginner_filter) {
-                    level[0] = "Beginner";
-                } else if (checkedId == R.id.rb_all_levels_filter) {
-                    level[0] = "AllLevel";
-                } else if (checkedId == R.id.rb_intermediate_filter) {
-                    level[0] = "Intermediate";
-                } else if (checkedId == R.id.rb_expert_filter) {
-                    level[0] = "Expert";
+                if (checkedId == R.id.rb_30_filter) {
+                    filterFragment.setRating(3.0f);
+                } else if (checkedId == R.id.rb_35_filter) {
+                    filterFragment.setRating(3.5f);
+                } else if (checkedId == R.id.rb_40_filter) {
+                    filterFragment.setRating(4.0f);
+                } else if (checkedId == R.id.rb_45_filter) {
+                    filterFragment.setRating(4.5f);
                 }
-                filterFragment.setLevel(level);
+//                filterFragment.setLevel(level);
             }
         });
 
         cb_free_filter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                free[0] = isChecked;
-                filterFragment.setFree(free);
+                if (isChecked) {
+                   filterFragment.addFree(true);
+                } else {
+                    filterFragment.removeFree(true);
+                }
             }
         });
 
@@ -92,98 +127,140 @@ public class FilterBottomFragment extends BottomSheetDialogFragment {
         cb_paid_filter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                free[1] = isChecked;
-                filterFragment.setFree(free);
-            }
-        });
-
-        cb_45_filter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked == true) {
-                    rating.add(4.5f);
-                }else {
-                    removeRating(4.5f);
-                }
-
-                filterFragment.setRating(getArrayOfRating());
-            }
-        });
-
-        cb_40_filter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked == true) {
-                    rating.add(4.0f);
-                }else {
-                    removeRating(4.0f);
-                }
-                filterFragment.setRating(getArrayOfRating());
-
-            }
-        });
-
-        cb_35_filter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked == true) {
-                    rating.add(3.5f);
-                }else {
-                    removeRating(3.5f);
-                }
-                filterFragment.setRating(getArrayOfRating());
-
-            }
-        });
-
-        cb_30_filter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked == true) {
-                    rating.add(3.0f);
+                if (isChecked) {
+                    filterFragment.addFree(false);
                 } else {
-                    removeRating(3.0f);
+                    filterFragment.removeFree(false);
                 }
-                filterFragment.setRating(getArrayOfRating());
+            }
+        });
+
+        cb_beginner_filter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    filterFragment.addLevel(Beginner);
+                } else {
+                    filterFragment.removeLevel(Beginner);
+                }
+            }
+        });
+
+        cb_intermediate_filter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    filterFragment.addLevel(Intermediate);
+                } else {
+                    filterFragment.removeLevel(Intermediate);
+                }
+            }
+        });
+
+        cb_all_levels_filter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    filterFragment.addLevel(AllLevel);
+                } else {
+                    filterFragment.removeLevel(AllLevel);
+                }
+
+            }
+        });
+
+        cb_expert_filter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    filterFragment.addLevel(Expert);
+                } else {
+                    filterFragment.removeLevel(Expert);
+                }
             }
         });
     }
 
-    void removeRating(Float rat) {
-        for(Float r : rating) {
-            if (r.equals(rat)) {
-                rating.remove(r);
-            }
-        }
+    private void resetSearch() {
+        filterFragment.rating = null;
+        filterFragment.frees = new ArrayList<>();
+        filterFragment.levels = new ArrayList<>();
+        filterFragment.setCourses();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (filterFragment.frees.contains(true)) {
+            cb_free_filter.setChecked(true);
+        } else {
+            cb_free_filter.setChecked(false);
+        }
 
-    Float[] getArrayOfRating() {
+        if (filterFragment.frees.contains(false)) {
+            cb_free_filter.setChecked(true);
+        }else {
+            cb_free_filter.setChecked(false);
+        }
 
-        int sizeRating = rating.size();
-        if (sizeRating > 0) {
 
-            Float[] newRating = new Float[sizeRating];
-            int start = 0 ;
-            for (Float r : rating) {
-                newRating[start++] = r;
+        if (filterFragment.levels.contains(Beginner)) {
+            cb_beginner_filter.setChecked(true);
+        }else {
+            cb_beginner_filter.setChecked(false);
+        }
+
+        if (filterFragment.levels.contains(Intermediate)) {
+            cb_intermediate_filter.setChecked(true);
+        }else {
+            cb_intermediate_filter.setChecked(false);
+        }
+
+
+        if (filterFragment.levels.contains(AllLevel)) {
+            cb_all_levels_filter.setChecked(true);
+        }else {
+            cb_all_levels_filter.setChecked(false);
+        }
+
+
+        if (filterFragment.levels.contains(Expert)) {
+            cb_expert_filter.setChecked(true);
+        }else {
+            cb_expert_filter.setChecked(false);
+        }
+
+        Float currentRating = filterFragment.rating;
+
+        if (currentRating != null) {
+            if (currentRating.equals(4.5f)) {
+                rb_45_filter.setChecked(true);
+            } else if (currentRating.equals(4.0f)) {
+                rb_40_filter.setChecked(true);
+
+            } else if (currentRating.equals(3.5f)) {
+                rb_35_filter.setChecked(true);
+
+            } else if (currentRating.equals(3.0f)) {
+                rb_30_filter.setChecked(true);
             }
         }
 
-        return new Float[];
+
+
     }
 
     private void setControl(View rootView) {
         cb_free_filter = rootView.findViewById(R.id.cb_free_filter);
         cb_paid_filter = rootView.findViewById(R.id.cb_paid_filter);
-        cb_45_filter = rootView.findViewById(R.id.cb_45_filter);
-        cb_40_filter = rootView.findViewById(R.id.cb_40_filter);
-        cb_35_filter = rootView.findViewById(R.id.cb_35_filter);
-        cb_30_filter = rootView.findViewById(R.id.cb_30_filter);
+        cb_beginner_filter = rootView.findViewById(R.id.cb_beginner_filter);
+        cb_all_levels_filter = rootView.findViewById(R.id.cb_all_levels_filter);
+        cb_expert_filter = rootView.findViewById(R.id.cb_expert_filter);
+        cb_intermediate_filter = rootView.findViewById(R.id.cb_intermediate_filter);
         btn_reset_filter = rootView.findViewById(R.id.btn_reset_filter);
         iv_dismiss_filter = rootView.findViewById(R.id.iv_dismiss_filter);
         btn_apply_filter = rootView.findViewById(R.id.btn_apply_filter);
-        rgLevels = rootView.findViewById(R.id.rg_levels);
+        rg_ratings = rootView.findViewById(R.id.rg_ratings);
     }
 
     @Override
