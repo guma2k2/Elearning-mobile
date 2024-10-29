@@ -64,7 +64,7 @@ public interface CourseApi {
     @GET("search")
     Call<List<CourseListGetVM>> getCoursesByMultiQuery(@Query("keyword")String keyword,
                                                        @Query("level") Boolean[] free,
-                                                       @Query("ratingStar")Float[] ratingStar,
+                                                       @Query("ratingStar")Float ratingStar,
                                                        @Query("level") String[] level,
                                                        @Query("categoryName")String categoryName);
 

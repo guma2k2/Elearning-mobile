@@ -51,9 +51,9 @@ public class FilterFragment extends Fragment {
 
     private CourseRecycleAdapter courseRecycleAdapter;
 
-    private Boolean[] free;
-    private String[] level;
-    private Float[] rating;
+    public List<Boolean> frees = new ArrayList<>();
+    public List<String> levels = new ArrayList<>();
+    public Float rating;
 
     public FilterFragment(Context context) {
         this.context = context;
@@ -69,21 +69,10 @@ public class FilterFragment extends Fragment {
         return view;
     }
 
-    public void setFree(Boolean[] free) {
-        this.free = free;
-        setCourses();
 
-    }
 
-    public void setLevel(String[] level) {
-        this.level = level;
-        setCourses();
-    }
-
-    public void setRating(Float[] rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
-        setCourses();
-
     }
 
     private void setEvent() {
@@ -104,11 +93,7 @@ public class FilterFragment extends Fragment {
             }
         });
 
-        if (keyword != "" || categoryName != null) {
-            rc_filter.setVisibility(View.VISIBLE);
-        } else {
-            rc_filter.setVisibility(View.GONE);
-        }
+
         sv_courseFilter.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -132,6 +117,11 @@ public class FilterFragment extends Fragment {
     public void onResume() {
         super.onResume();
         setCategories();
+        if (courseListGetVMList.size() > 0 ) {
+            rc_filter.setVisibility(View.GONE);
+        }else {
+            rc_filter.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setCategories() {
@@ -151,21 +141,46 @@ public class FilterFragment extends Fragment {
         });
     }
 
-    private void setCourses() {
-        if (keyword != null || keyword != "") {
-            CourseApi.courseApi.getCoursesByMultiQuery(keyword, free, rating, level, categoryName ).enqueue(new Callback<List<CourseListGetVM>>() {
-                @Override
-                public void onResponse(Call<List<CourseListGetVM>> call, Response<List<CourseListGetVM>> response) {
-                    List<CourseListGetVM> courses = response.body();
-                    courseListGetVMList.addAll(courses);
-                    courseRecycleAdapter.notifyDataSetChanged();
-                }
-                @Override
-                public void onFailure(Call<List<CourseListGetVM>> call, Throwable t) {
-                    Toast.makeText(context, t.toString(), Toast.LENGTH_SHORT);
-                }
-            });
+    public void setCourses() {
+
+        Boolean[] free = getFreeArray();
+        String[] level = getLevelArray();
+        CourseApi.courseApi.getCoursesByMultiQuery(keyword, free, rating, level, categoryName ).enqueue(new Callback<List<CourseListGetVM>>() {
+            @Override
+            public void onResponse(Call<List<CourseListGetVM>> call, Response<List<CourseListGetVM>> response) {
+                List<CourseListGetVM> courses = response.body();
+                courseListGetVMList.addAll(courses);
+                courseRecycleAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onFailure(Call<List<CourseListGetVM>> call, Throwable t) {
+                Toast.makeText(context, t.toString(), Toast.LENGTH_SHORT);
+            }
+        });
+    }
+
+    private String[] getLevelArray() {
+        int size = levels.size() ;
+        if (size > 0) {
+            String[] levelArray = new String[size];
+            int start = 0;
+            for(String b : levels) {
+                levelArray[start++] = b;
+            }
         }
+        return new String[]{};
+    }
+
+    private Boolean[] getFreeArray() {
+        int size = frees.size() ;
+        if (size > 0) {
+            Boolean[] free = new Boolean[size];
+            int start = 0;
+            for(Boolean b : frees) {
+                free[start++] = b;
+            }
+        }
+        return new Boolean[]{};
     }
 
     public void setKeyword(String keyword) {
@@ -183,5 +198,29 @@ public class FilterFragment extends Fragment {
         sv_courseFilter = view.findViewById(R.id.sv_courseFilter);
         btn_filter = view.findViewById(R.id.btn_filter);
         rc_courses_filter = view.findViewById(R.id.rc_courses_filter);
+    }
+
+    public void addLevel(String level) {
+        levels.add(level);
+    }
+
+    public void removeLevel(String level) {
+        for (String l : levels) {
+            if (l.equals(level)) {
+                levels.remove(l);
+            }
+        }
+    }
+
+    public void addFree(boolean f) {
+        frees.add(f);
+    }
+
+    public void removeFree(boolean f) {
+        for (Boolean item : frees) {
+            if (f == item) {
+                frees.remove(f);
+            }
+        }
     }
 }
