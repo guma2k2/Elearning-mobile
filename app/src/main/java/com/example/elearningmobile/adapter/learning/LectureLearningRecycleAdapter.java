@@ -65,7 +65,7 @@ public class LectureLearningRecycleAdapter extends RecyclerView.Adapter<LectureL
 
 
         holder.ll_lecture_learning.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceAsColor")
+            @SuppressLint({"ResourceAsColor", "NotifyDataSetChanged"})
             @Override
             public void onClick(View v) {
                 if (context instanceof LearningActivity) {

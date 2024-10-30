@@ -22,10 +22,14 @@
             android:paddingLeft="30dp"
             />
     </LinearLayout>
-    <VideoView
-        android:id="@+id/vv_learning"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"/>
+        android:layout_height="wrap_content">
+        <VideoView
+            android:id="@+id/vv_learning"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
+    </FrameLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rc_lectures_learning"
         android:layout_width="match_parent"

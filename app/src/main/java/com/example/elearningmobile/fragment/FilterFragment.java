@@ -117,11 +117,7 @@ public class FilterFragment extends Fragment {
     public void onResume() {
         super.onResume();
         setCategories();
-        if (courseListGetVMList.size() > 0 ) {
-            rc_filter.setVisibility(View.GONE);
-        }else {
-            rc_filter.setVisibility(View.VISIBLE);
-        }
+
     }
 
     private void setCategories() {
@@ -145,11 +141,17 @@ public class FilterFragment extends Fragment {
 
         Boolean[] free = getFreeArray();
         String[] level = getLevelArray();
-        CourseApi.courseApi.getCoursesByMultiQuery(keyword, free, rating, level, categoryName ).enqueue(new Callback<List<CourseListGetVM>>() {
+        CourseApi.courseApi.getCoursesByMultiQuery(keyword, free, rating, level, categoryName).enqueue(new Callback<List<CourseListGetVM>>() {
             @Override
             public void onResponse(Call<List<CourseListGetVM>> call, Response<List<CourseListGetVM>> response) {
                 List<CourseListGetVM> courses = response.body();
-                courseListGetVMList.addAll(courses);
+                courseListGetVMList.clear();
+                if (courses.size() > 0) {
+                    courseListGetVMList.addAll(courses);
+                    rc_filter.setVisibility(View.GONE);
+                } else {
+                    rc_filter.setVisibility(View.VISIBLE);
+                }
                 courseRecycleAdapter.notifyDataSetChanged();
             }
             @Override
@@ -167,6 +169,7 @@ public class FilterFragment extends Fragment {
             for(String b : levels) {
                 levelArray[start++] = b;
             }
+            return levelArray;
         }
         return new String[]{};
     }
@@ -179,6 +182,7 @@ public class FilterFragment extends Fragment {
             for(Boolean b : frees) {
                 free[start++] = b;
             }
+            return free;
         }
         return new Boolean[]{};
     }

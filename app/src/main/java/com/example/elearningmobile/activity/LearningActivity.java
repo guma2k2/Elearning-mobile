@@ -85,13 +85,13 @@ public class LearningActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
 
         GlobalVariable globalVariable = (GlobalVariable) getApplication();
-//        if (extras != null) {
-//            String slug = extras.getString("slug");
-            String slug = "my-course-is-number-one";
+        if (extras != null) {
+            String slug = extras.getString("slug");
+//            String slug = "my-course-is-number-one";
 
-//            String token = globalVariable.getAccess_token();
+            String token = globalVariable.getAccess_token();
 
-            String token = "eyJhbGciOiJIUzI1NiJ9.eyJzY29wZXMiOlsiUk9MRV9TVFVERU5UIl0sInN1YiI6Im4yMGRjY24xNTNAc3R1ZGVudC5wdGl0aGNtLmVkdS52biIsImlhdCI6MTcyOTg1ODY3NywiZXhwIjoxNzMxMTU0Njc3fQ.YhTZw-J-J0yZwkFijZfrsreQrHWMSBMWhV_M5y2lOug";
+//            String token = "eyJhbGciOiJIUzI1NiJ9.eyJzY29wZXMiOlsiUk9MRV9TVFVERU5UIl0sInN1YiI6Im4yMGRjY24xNTNAc3R1ZGVudC5wdGl0aGNtLmVkdS52biIsImlhdCI6MTczMDI5ODY2NSwiZXhwIjoxNzMxNTk0NjY1fQ.dkh2AZq5A0cktQoRyNioYA6g0fxamUNEg03wfF2lClA";
 
             String bearerToken = "Bearer " + token;
             if (slug != null && slug != "") {
@@ -107,7 +107,8 @@ public class LearningActivity extends AppCompatActivity {
                             curriculumId = body.getCurriculumId();
                             Curriculum curriculum = getCurrentCurriculum(courseLearningVm.getSectionId(), courseLearningVm.getCurriculumId())  ;
                             if (curriculum instanceof LectureVm) {
-                                String videoUrl = ((LectureVm) curriculum).getVideoId();
+//                                String videoUrl = ((LectureVm) curriculum).getVideoId();
+                                String videoUrl = "https://res.cloudinary.com/di6h4mtfa/video/upload/v1721228036/202d9a90-94de-416c-89fc-1996a1360b8a.mp4";
                                 runVideo(videoUrl);
                             }
 
@@ -121,21 +122,21 @@ public class LearningActivity extends AppCompatActivity {
                     }
                 });
             }
-//        }
+        }
     }
 
     public void runVideo(String url) {
         Uri uri = Uri.parse(url);
 
         // Set up the MediaController
-        MediaController mediaController = new MediaController(getApplicationContext());
+        MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(vv_learning);
         vv_learning.setMediaController(mediaController);
 
         // Set the URI and start the video
         vv_learning.setVideoURI(uri);
         vv_learning.requestFocus();
-        vv_learning.start();
+//        vv_learning.start();
     }
 
     private Curriculum getCurrentCurriculum(Long sectionId, Long curriculumId) {
