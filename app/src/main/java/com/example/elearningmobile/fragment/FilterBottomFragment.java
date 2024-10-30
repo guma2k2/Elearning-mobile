@@ -48,9 +48,11 @@ public class FilterBottomFragment extends BottomSheetDialogFragment {
     CheckBox cb_free_filter, cb_paid_filter, cb_beginner_filter, cb_all_levels_filter, cb_intermediate_filter, cb_expert_filter;
     TextView btn_reset_filter;
 
-    private RadioButton rb_45_filter, rb_40_filter, rb_35_filter, rb_30_filter;
+    RadioButton rb_45_filter, rb_40_filter, rb_35_filter, rb_30_filter;
     ImageView iv_dismiss_filter;
     Button btn_apply_filter;
+
+
 
 
     List<Float> rating = new ArrayList<>();
@@ -76,6 +78,21 @@ public class FilterBottomFragment extends BottomSheetDialogFragment {
 
     private void setEvent() {
 
+        rg_ratings.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (rb_45_filter.isChecked()) {
+                    filterFragment.setRating(3.0f);
+                } else if (rb_40_filter.isChecked()) {
+                    filterFragment.setRating(3.5f);
+                } else if (rb_35_filter.isChecked()) {
+                    filterFragment.setRating(4.0f);
+                } else if (rb_30_filter.isChecked()) {
+                    filterFragment.setRating(4.5f);
+                }
+            }
+        });
+
         btn_reset_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,21 +113,7 @@ public class FilterBottomFragment extends BottomSheetDialogFragment {
                 dismiss();
             }
         });
-        rg_ratings.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.rb_30_filter) {
-                    filterFragment.setRating(3.0f);
-                } else if (checkedId == R.id.rb_35_filter) {
-                    filterFragment.setRating(3.5f);
-                } else if (checkedId == R.id.rb_40_filter) {
-                    filterFragment.setRating(4.0f);
-                } else if (checkedId == R.id.rb_45_filter) {
-                    filterFragment.setRating(4.5f);
-                }
-//                filterFragment.setLevel(level);
-            }
-        });
+
 
         cb_free_filter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -261,6 +264,11 @@ public class FilterBottomFragment extends BottomSheetDialogFragment {
         iv_dismiss_filter = rootView.findViewById(R.id.iv_dismiss_filter);
         btn_apply_filter = rootView.findViewById(R.id.btn_apply_filter);
         rg_ratings = rootView.findViewById(R.id.rg_ratings);
+        rb_45_filter = rootView.findViewById(R.id.rb_45_filter);
+        rb_40_filter = rootView.findViewById(R.id.rb_40_filter);
+        rb_35_filter = rootView.findViewById(R.id.rb_35_filter);
+        rb_30_filter = rootView.findViewById(R.id.rb_30_filter);
+
     }
 
     @Override
