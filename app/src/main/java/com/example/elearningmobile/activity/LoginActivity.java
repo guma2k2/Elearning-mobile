@@ -52,8 +52,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setEvent() {
 
-
-
         btn_loginGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 }) ;
@@ -135,13 +134,11 @@ public class LoginActivity extends AppCompatActivity {
                         .build())
                 .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                         .setSupported(true)
-                        // Your server's client ID, not your Android client ID.
-                        .setServerClientId("553874834892-51tqjh0j2m0nren6789bj02h6t2bnquh.apps.googleusercontent.com") // TODO
-                        // Only show accounts previously used to sign in.
+                        .setServerClientId("534319349106-ssjqm8f6iehg8r54sa6g9ojbo6o9iqoa.apps.googleusercontent.com") // TODO
                         .setFilterByAuthorizedAccounts(false)
                         .build())
                 // Automatically sign in when exactly one credential is retrieved.
-                .setAutoSelectEnabled(true)
+                .setAutoSelectEnabled(false)
                 .build();
     }
 
@@ -153,6 +150,7 @@ public class LoginActivity extends AppCompatActivity {
             case REQ_ONE_TAP:
                 try {
                     SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(data);
+                    System.out.println(credential);
                     String idToken = credential.getGoogleIdToken();
                     String username = credential.getId();
                     String password = credential.getPassword();
