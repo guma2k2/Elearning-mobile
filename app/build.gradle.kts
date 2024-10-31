@@ -78,6 +78,7 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    implementation("androidx.credentials:credentials-play-services-auth:1.5.0-alpha05")
     implementation("com.google.android.gms:play-services-auth:21.2.0")
+
+    implementation(files("libs/merchant-1.0.25.aar"))
 }
