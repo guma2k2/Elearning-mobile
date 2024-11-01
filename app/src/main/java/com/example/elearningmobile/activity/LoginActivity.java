@@ -151,16 +151,27 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(data);
                     System.out.println(credential);
-                    String idToken = credential.getGoogleIdToken();
-                    String username = credential.getId();
-                    String password = credential.getPassword();
+                    String code = credential.getGoogleIdToken();
+//                    String username = credential.getId();
+//                    String password = credential.getPassword();
 //                    textView.setText("Authentication done.\nUsername is " + username);
-                    if (idToken != null) {
-                        // Got an ID token from Google. Use it to authenticate
-                        // with your backend.
-                    } else if (password != null) {
-                        // Got a saved username and password. Use them to authenticate
-                        // with your backend.
+                    if (code != null) {
+                        AuthApi.authApi.outboundAuthenticate(code).enqueue(new Callback<AuthenticationVm>() {
+                            @Override
+                            public void onResponse(Call<AuthenticationVm> call, Response<AuthenticationVm> response) {
+                                AuthenticationVm authenticationResponse = response.body();
+                                GlobalVariable globalVariable = (GlobalVariable) getApplication();
+                                globalVariable.setAuthentication(authenticationResponse);
+                                globalVariable.setLoggedIn(true);
+                                Toast.makeText(getApplicationContext(),  "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                                redirectToHomePage();
+                            }
+
+                            @Override
+                            public void onFailure(Call<AuthenticationVm> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(), "Có lỗi xảy ra trong quá trình đăng nhap", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 } catch (ApiException e) {
                     throw new RuntimeException(e);
