@@ -16,6 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.Call;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface AuthApi {
     Gson gson = new GsonBuilder().create();
@@ -36,4 +37,7 @@ public interface AuthApi {
 
     @POST("register")
     Call<AuthenticationVm> register(@Body RegistrationPostVm registrationPostVm);
+
+    @POST("/outbound/authentication")
+    Call<AuthenticationVm> outboundAuthenticate(@Query("code")String code);
 }
