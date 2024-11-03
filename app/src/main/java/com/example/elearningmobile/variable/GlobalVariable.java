@@ -27,6 +27,12 @@ public class GlobalVariable extends Application {
         this.access_token = authenticationResponse.getToken();
     }
 
+    public void logOut() {
+        this.isLoggedIn = false;
+        this.auth = new UserVm();
+        this.access_token = "";
+    }
+
     public boolean isLoggedIn() {
         return isLoggedIn;
     }
