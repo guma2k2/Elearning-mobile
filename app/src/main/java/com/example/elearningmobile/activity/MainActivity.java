@@ -109,8 +109,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void redirectProfileFragment() {
-        Fragment fragment  = new ProfileFragment(this);
+        GlobalVariable globalVariable = (GlobalVariable) getApplication();
+        if (!globalVariable.isLoggedIn()) {
+            Intent activityChangeIntent = new Intent(this, LoginActivity.class);
+            startActivity(activityChangeIntent);
+        }
+        Fragment fragment  = new ProfileFragment(this, globalVariable);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
+
     }
 
     private void redirectSearchFragment() {
