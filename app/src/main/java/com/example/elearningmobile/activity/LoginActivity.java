@@ -17,6 +17,7 @@ import com.example.elearningmobile.R;
 import com.example.elearningmobile.api.AuthApi;
 import com.example.elearningmobile.model.AuthenticationPostVm;
 import com.example.elearningmobile.model.AuthenticationVm;
+import com.example.elearningmobile.model.OutboundUserRequest;
 import com.example.elearningmobile.variable.GlobalVariable;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.BeginSignInResult;
@@ -137,7 +138,6 @@ public class LoginActivity extends AppCompatActivity {
                         .setServerClientId("534319349106-ssjqm8f6iehg8r54sa6g9ojbo6o9iqoa.apps.googleusercontent.com") // TODO
                         .setFilterByAuthorizedAccounts(false)
                         .build())
-                // Automatically sign in when exactly one credential is retrieved.
                 .setAutoSelectEnabled(false)
                 .build();
     }
@@ -152,11 +152,11 @@ public class LoginActivity extends AppCompatActivity {
                     SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(data);
                     System.out.println(credential);
                     String code = credential.getGoogleIdToken();
-//                    String username = credential.getId();
-//                    String password = credential.getPassword();
-//                    textView.setText("Authentication done.\nUsername is " + username);
-                    if (code != null) {
-                        AuthApi.authApi.outboundAuthenticate(code).enqueue(new Callback<AuthenticationVm>() {
+
+                    OutboundUserRequest request = new OutboundUserRequest(credential.getId(), credential.getGivenName(),
+                            credential.getFamilyName(), credential.getProfilePictureUri().toString());
+                    if (credential != null) {
+                        AuthApi.authApi.outboundAuthenticate(request).enqueue(new Callback<AuthenticationVm>() {
                             @Override
                             public void onResponse(Call<AuthenticationVm> call, Response<AuthenticationVm> response) {
                                 AuthenticationVm authenticationResponse = response.body();

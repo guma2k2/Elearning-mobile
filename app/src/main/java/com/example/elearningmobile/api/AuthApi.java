@@ -3,6 +3,7 @@ package com.example.elearningmobile.api;
 import com.example.elearningmobile.model.AuthenticationPostVm;
 import com.example.elearningmobile.model.AuthenticationResponse;
 import com.example.elearningmobile.model.AuthenticationVm;
+import com.example.elearningmobile.model.OutboundUserRequest;
 import com.example.elearningmobile.model.RegistrationPostVm;
 import com.example.elearningmobile.ultity.Constants;
 import com.google.gson.Gson;
@@ -38,6 +39,6 @@ public interface AuthApi {
     @POST("register")
     Call<AuthenticationVm> register(@Body RegistrationPostVm registrationPostVm);
 
-    @POST("/outbound/authentication")
-    Call<AuthenticationVm> outboundAuthenticate(@Query("code")String code);
+    @POST("/outbound/authentication/mobile")
+    Call<AuthenticationVm> outboundAuthenticate(@Body OutboundUserRequest outboundUserRequest);
 }

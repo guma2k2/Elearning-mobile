@@ -73,8 +73,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 globalVariable.logOut();
+                redirectToHomePage();
             }
         });
+    }
+    private void redirectToHomePage() {
+        Intent activityChangeIntent = new Intent(context, MainActivity.class);
+        this.startActivity(activityChangeIntent);
     }
 
     private void setControl(View view) {
