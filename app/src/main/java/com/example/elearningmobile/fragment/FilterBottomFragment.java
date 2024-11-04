@@ -82,13 +82,16 @@ public class FilterBottomFragment extends BottomSheetDialogFragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (rb_45_filter.isChecked()) {
-                    filterFragment.setRating(3.0f);
-                } else if (rb_40_filter.isChecked()) {
-                    filterFragment.setRating(3.5f);
-                } else if (rb_35_filter.isChecked()) {
-                    filterFragment.setRating(4.0f);
-                } else if (rb_30_filter.isChecked()) {
                     filterFragment.setRating(4.5f);
+
+                } else if (rb_40_filter.isChecked()) {
+                    filterFragment.setRating(4.0f);
+
+                } else if (rb_35_filter.isChecked()) {
+                    filterFragment.setRating(3.5f);
+
+                } else if (rb_30_filter.isChecked()) {
+                    filterFragment.setRating(3.0f);
                 }
             }
         });

@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setEvent() {
-        categoryHomeRecycleAdapter = new CategoryHomeRecycleAdapter(categories);
+        categoryHomeRecycleAdapter = new CategoryHomeRecycleAdapter(categories, context);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 2, RecyclerView.HORIZONTAL, false);
         rc_category_home.setLayoutManager(gridLayoutManager);
         rc_category_home.setAdapter(categoryHomeRecycleAdapter);
