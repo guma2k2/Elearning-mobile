@@ -19,6 +19,9 @@
         android:theme="@style/Theme.ElearningMobile"
         tools:targetApi="31">
         <activity
+            android:name=".activity.ProfileFormActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.CourseByCategoryActivity"
             android:exported="false" />
         <activity

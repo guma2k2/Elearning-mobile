@@ -91,7 +91,7 @@ public class LearningActivity extends AppCompatActivity {
 
 //            String token = globalVariable.getAccess_token();
 
-            String token = "eyJhbGciOiJIUzI1NiJ9.eyJzY29wZXMiOlsiUk9MRV9TVFVERU5UIl0sInN1YiI6Im4yMGRjY24xNTNAc3R1ZGVudC5wdGl0aGNtLmVkdS52biIsImlhdCI6MTczMDczODMzMywiZXhwIjoxNzMyMDM0MzMzfQ.rXQqoL-dZbvgOFZQBP4A2GvHkLEk2GScFmKpJFtS1BQ";
+            String token = "eyJhbGciOiJIUzI1NiJ9.eyJzY29wZXMiOlsiUk9MRV9TVFVERU5UIl0sInN1YiI6Im4yMGRjY24xNTNAc3R1ZGVudC5wdGl0aGNtLmVkdS52biIsImlhdCI6MTczMDc3MTU4MywiZXhwIjoxNzMyMDY3NTgzfQ.GzxhRkWFSbuDdLrb2e8bR5oe2bRhEy2HhXjDyGVMQN4";
 
             String bearerToken = "Bearer " + token;
             if (slug != null && slug != "") {
@@ -107,8 +107,8 @@ public class LearningActivity extends AppCompatActivity {
                             curriculumId = body.getCurriculumId();
                             Curriculum curriculum = getCurrentCurriculum(courseLearningVm.getSectionId(), courseLearningVm.getCurriculumId())  ;
                             if (curriculum instanceof LectureVm) {
-//                                String videoUrl = ((LectureVm) curriculum).getVideoId();
-                                String videoUrl = "https://res.cloudinary.com/di6h4mtfa/video/upload/v1721228036/202d9a90-94de-416c-89fc-1996a1360b8a.mp4";
+                                String videoUrl = ((LectureVm) curriculum).getVideoId();
+//                                String videoUrl = "https://res.cloudinary.com/di6h4mtfa/video/upload/v1721228036/202d9a90-94de-416c-89fc-1996a1360b8a.mp4";
                                 runVideo(videoUrl);
                             }
 
