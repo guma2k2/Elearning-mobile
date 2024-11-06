@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -128,35 +130,12 @@ public class CourseDetailActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void openSdk() {
-        Intent intent = new Intent(this, VNP_AuthenticationActivity.class);
-        intent.putExtra("url", "https://sandbox.vnpayment.vn/testsdk"); //bắt buộc, VNPAY cung cấp
-        intent.putExtra("tmn_code", "9DL8WGFX"); //bắt buộc, VNPAY cung cấp
-        intent.putExtra("scheme", "resultactivity"); //bắt buộc, scheme để mở lại app khi có kết quả thanh toán từ mobile banking
-        intent.putExtra("is_sandbox", false); //bắt buộc, true <=> môi trường test, true <=> môi trường live
+        Intent activityChangeIntent = new Intent(this, ResultActivity.class);
+        this.startActivity(activityChangeIntent);
+    }
 
-
-        VNP_AuthenticationActivity.setSdkCompletedCallback(new VNP_SdkCompletedCallback() {
-            @Override
-            public void sdkAction(String action) {
-                Log.wtf("SplashActivity", "action: " + action);
-                //action == AppBackAction
-                //Người dùng nhấn back từ sdk để quay lại
-
-                //action == CallMobileBankingApp
-                //Người dùng nhấn chọn thanh toán qua app thanh toán (Mobile Banking, Ví...)
-                //lúc này app tích hợp sẽ cần lưu lại cái PNR, khi nào người dùng mở lại app tích hợp thì sẽ gọi kiểm tra trạng thái thanh toán của PNR Đó xem đã thanh toán hay chưa.
-
-                //action == WebBackAction
-                //Người dùng nhấn back từ trang thanh toán thành công khi thanh toán qua thẻ khi url có chứa: cancel.sdk.merchantbackapp
-
-                //action == FaildBackAction
-                //giao dịch thanh toán bị failed
-
-                //action == SuccessBackAction
-                //thanh toán thành công trên webview
-            }
-        });
-        startActivity(intent);
+    private void handlePaymentCallback(String url) {
+        System.out.println(url);
     }
 
     @Override
