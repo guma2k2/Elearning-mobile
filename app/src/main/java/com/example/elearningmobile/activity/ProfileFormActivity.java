@@ -23,7 +23,10 @@ import android.widget.TextView;
 
 import com.example.elearningmobile.R;
 import com.example.elearningmobile.api.MediaApi;
+import com.example.elearningmobile.api.StudentApi;
 import com.example.elearningmobile.model.MediaResponse;
+import com.example.elearningmobile.model.StudentPutVM;
+import com.example.elearningmobile.model.UserVm;
 
 import java.io.File;
 import java.util.List;
@@ -81,7 +84,24 @@ public class ProfileFormActivity extends AppCompatActivity {
                 // Optional handling for no selection
             }
         });
-    }private void setDateOfBirth() {
+        btn_edit_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StudentApi.studentApi.updateProfile(new StudentPutVM()).enqueue(new Callback<UserVm>() {
+                    @Override
+                    public void onResponse(Call<UserVm> call, Response<UserVm> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserVm> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+    }
+    private void setDateOfBirth() {
         // Process to get Current Date
         final Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
