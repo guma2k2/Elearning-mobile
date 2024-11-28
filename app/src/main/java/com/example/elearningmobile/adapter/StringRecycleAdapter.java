@@ -21,11 +21,11 @@ import java.util.List;
 
 public class StringRecycleAdapter extends RecyclerView.Adapter<StringRecycleAdapter.StringHolder>{
 
-    private String[] values;
+    private List<String> values;
 
     private CourseDetailType type;
 
-    public StringRecycleAdapter(String[] values, CourseDetailType type) {
+    public StringRecycleAdapter(List<String> values, CourseDetailType type) {
         this.values = values;
         this.type = type;
     }
@@ -39,12 +39,12 @@ public class StringRecycleAdapter extends RecyclerView.Adapter<StringRecycleAdap
 
     @Override
     public void onBindViewHolder(@NonNull StringRecycleAdapter.StringHolder holder, int position) {
-        holder.tv_value_courseDetail.setText(values[position]);
+        holder.tv_value_courseDetail.setText(values.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return values != null ?  values.length : 0 ;
+        return values != null ?  values.size() : 0 ;
     }
 
     class StringHolder extends RecyclerView.ViewHolder{

@@ -64,6 +64,11 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    implementation(fileTree(mapOf(
+        "dir" to "D:\\Download\\ZaloPayLib",
+        "include" to listOf("*.aar", "*.jar"),
+        "exclude" to listOf("")
+    )))
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
@@ -81,4 +86,5 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.2.0")
 
     implementation(files("libs/merchant-1.0.25.aar"))
+    implementation("commons-codec:commons-codec:1.14")
 }

@@ -25,7 +25,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-
+        android:paddingVertical="5dp"
         android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,13 +91,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="course desc"/>
-                <TextView
-                    android:id="@+id/tv_studentCount_courseDetail"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="16sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="course desc"/>
             </LinearLayout>
             <TextView
                 android:id="@+id/tv_coursePrice_courseDetail"
@@ -115,18 +108,19 @@
                 android:id="@+id/btn_addToCart_courseDetail"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Them vao gio hang"/>
+                android:text="Thêm vào giỏ hàng"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/tv_courseObjectiveTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:text="Ban se hoc duoc"/>
+                    android:text="Bạn sẽ học được"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rc_objectives_courseDetail"
                     android:layout_width="match_parent"
@@ -142,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:text="Giao trinh"/>
+                    android:text="Giáo trình"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -181,7 +175,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:text="Khoa hoc bao gom"/>
+                    android:text="Khóa học bao gồm"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -252,11 +246,12 @@
                 android:layout_marginBottom="15dp"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/tv_requirementTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:text="Yeu cau khoa hoc"/>
+                    android:text="Yêu cầu khóa học"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rc_requirements_courseDetail"
                     android:layout_width="match_parent"
@@ -272,7 +267,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:text="Mo ta"/>
+                    android:text="Mô tả"/>
                 <TextView
                     android:id="@+id/tv_courseDesc_courseDetail"
                     android:textSize="16sp"
@@ -292,7 +287,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="15dp"
-                    android:text="Giao vien"/>
+                    android:text="Giáo viên"/>
                 <TextView
                     android:id="@+id/tv_instructorName_courseDetail"
                     android:textSize="16sp"
@@ -343,6 +338,7 @@
                             android:layout_height="wrap_content"
                             android:text="Học mọi lúc mọi nơi"/>
                         <TextView
+                            android:id="@+id/tv_courseCountInstructor_courseDetail"
                             android:layout_marginLeft="10dp"
                             android:textSize="16sp"
                             android:layout_width="match_parent"
@@ -363,8 +359,9 @@
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:text="Danh gia"/>
+                        android:text="Đánh giá"/>
                     <TextView
+                        android:id="@+id/tv_courseAvgRating"
                         android:textSize="16sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
