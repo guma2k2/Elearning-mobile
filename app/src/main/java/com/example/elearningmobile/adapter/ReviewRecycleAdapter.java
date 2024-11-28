@@ -36,7 +36,7 @@ public class ReviewRecycleAdapter extends RecyclerView.Adapter<ReviewRecycleAdap
     @Override
     public void onBindViewHolder(@NonNull ReviewRecycleAdapter.ReviewHolder holder, int position) {
         ReviewVM review = reviews.get(position);
-        holder.tv_studentName_review.setText(review.getStudent().getFirstName() + review.getStudent().getLastName());
+        holder.tv_studentName_review.setText(review.getStudent().getEmail());
         holder.tv_reviewCreatedAt_review.setText(review.getCreatedAt());
         holder.tv_reviewText_review.setText(review.getContent());
         holder.rb_rating_review.setRating(review.getRatingStar());
