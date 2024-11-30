@@ -30,14 +30,14 @@ public interface MediaApi {
             .writeTimeout(30, TimeUnit.MINUTES.SECONDS)
             .build();
     MediaApi mediaApi = new Retrofit.Builder()
-            .baseUrl(Constants.AUTH_URL)
+            .baseUrl(Constants.MEDIA_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient)
             .build().
             create(MediaApi.class);
 
     @Multipart
-    @POST("your-endpoint")
+    @POST("/api/v1/medias")
     Call<MediaResponse> save(
             @Part MultipartBody.Part file,
             @Part("type") RequestBody type

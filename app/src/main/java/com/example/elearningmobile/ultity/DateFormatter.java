@@ -4,8 +4,10 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class DateFormatter {
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -22,5 +24,10 @@ public class DateFormatter {
         // Parse the string to a LocalDateTime object
         LocalDateTime localDateTime = LocalDateTime.parse(time, formatter);
         return localDateTime;
+    }
+
+    public static String getCurrentDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        return dateFormat.format(new Date());
     }
 }

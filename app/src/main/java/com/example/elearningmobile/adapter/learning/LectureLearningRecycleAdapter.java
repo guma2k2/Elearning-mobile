@@ -15,6 +15,7 @@ import com.example.elearningmobile.R;
 import com.example.elearningmobile.activity.LearningActivity;
 import com.example.elearningmobile.model.Curriculum;
 import com.example.elearningmobile.model.LectureVm;
+import com.example.elearningmobile.model.QuizVM;
 import com.example.elearningmobile.model.course.CourseLearningVm;
 import com.example.elearningmobile.model.section.SectionVM;
 
@@ -74,6 +75,13 @@ public class LectureLearningRecycleAdapter extends RecyclerView.Adapter<LectureL
                         ((LearningActivity) context).runVideo(url);
                         ((LearningActivity) context).curriculumId = curriculum.getId();
                         ((LearningActivity) context).type = curriculum.getType().name();
+                        ((LearningActivity) context).curriculumLearningRecycleAdapter.notifyDataSetChanged();
+                    } else if (curriculum instanceof QuizVM) {
+                        ((LearningActivity) context).curriculumId = curriculum.getId();
+                        ((LearningActivity) context).type = curriculum.getType().name();
+                        ((LearningActivity) context).indexQuestion = 0;
+                        ((LearningActivity) context).selectedAnswerIndex = null;
+                        ((LearningActivity) context).showQuestion((QuizVM) curriculum);
                         ((LearningActivity) context).curriculumLearningRecycleAdapter.notifyDataSetChanged();
                     }
                 }

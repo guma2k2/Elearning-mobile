@@ -151,7 +151,6 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(data);
                     System.out.println(credential);
-                    String code = credential.getGoogleIdToken();
 
                     OutboundUserRequest request = new OutboundUserRequest(credential.getId(), credential.getGivenName(),
                             credential.getFamilyName(), credential.getProfilePictureUri().toString());
@@ -169,7 +168,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<AuthenticationVm> call, Throwable t) {
-                                Toast.makeText(getApplicationContext(), "Có lỗi xảy ra trong quá trình đăng nhap", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Có lỗi xảy ra trong quá trình đăng nhập", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

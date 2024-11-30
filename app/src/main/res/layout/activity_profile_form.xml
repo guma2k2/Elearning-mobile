@@ -13,7 +13,7 @@
         android:orientation="horizontal"
         >
         <Button
-            android:id="@+id/btn_back_to_payment"
+            android:id="@+id/btn_backToProfile_profileForm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
             android:layout_gravity="center"
-            android:text="Ho so nguoi dung"
+            android:text="Hồ sơ người dùng"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="24dp" />
@@ -66,7 +66,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Nhập mat khaủ"
+            android:hint="Nhập mật khẩu"
             android:id="@+id/ed_password_profile"
             android:layout_marginBottom="4dp"/>
         <TextView
@@ -143,6 +143,14 @@
 
         </LinearLayout>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_userPhoto"
+        android:layout_width="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_height="100dp"/>
     <LinearLayout
         android:gravity="center"
         android:layout_width="match_parent"
@@ -165,4 +173,5 @@
             android:background="@color/main_color"
             android:textColor="@color/white" />
     </LinearLayout>
+
 </LinearLayout>

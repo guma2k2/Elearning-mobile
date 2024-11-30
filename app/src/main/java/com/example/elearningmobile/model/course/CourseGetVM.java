@@ -1,6 +1,8 @@
 package com.example.elearningmobile.model.course;
 
-public class CourseGetVM {
+import java.io.Serializable;
+
+public class CourseGetVM implements Serializable {
     private Long id;
     private String title;
     private String headline;

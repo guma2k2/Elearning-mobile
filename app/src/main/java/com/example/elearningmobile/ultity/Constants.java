@@ -5,6 +5,12 @@ public class Constants {
 
 
     public static final String AUTH_URL = BASE_URL + "auth/";
+
+    public static final String STUDENT_URL = BASE_URL ;
+
+
+    public static final String MEDIA_URL = BASE_URL + "medias/";
+
     public static final String COURSE_URL = BASE_URL + "courses/";
     public static final String REVIEW_URL = BASE_URL + "reviews/";
 
@@ -12,6 +18,9 @@ public class Constants {
 
     public static final String CART_URL = BASE_URL + "";
     public static final String ORDER_URL = BASE_URL + "orders/";
+
+    public static final String PAYMENT_URL = BASE_URL + "payments/";
+
     public static final String CATEGORY_URL = BASE_URL + "category/";
 
 

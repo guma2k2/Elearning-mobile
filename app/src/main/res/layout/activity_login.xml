@@ -87,7 +87,7 @@
                 android:id="@+id/btn_loginGoogle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Google?"
+                android:text="Đăng nhập bằng tài khoản Google?"
                 android:textColor="#F0739D"
                 android:background="@null"
                 android:textAllCaps="false"/>

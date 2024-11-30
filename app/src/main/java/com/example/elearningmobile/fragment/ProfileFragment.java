@@ -10,13 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.elearningmobile.R;
+import com.example.elearningmobile.activity.LoginActivity;
 import com.example.elearningmobile.activity.MainActivity;
 import com.example.elearningmobile.activity.OrderActivity;
 import com.example.elearningmobile.activity.OrderDetailActivity;
+import com.example.elearningmobile.activity.ProfileFormActivity;
+import com.example.elearningmobile.model.UserVm;
 import com.example.elearningmobile.variable.GlobalVariable;
+import com.squareup.picasso.Picasso;
 
 
 public class ProfileFragment extends Fragment {
@@ -25,7 +30,9 @@ public class ProfileFragment extends Fragment {
 
     private TextView tvHoVaTen, tvNgaySinh, tvGioiTinh;
 
-    private Button btnDoiMK, btn_my_order, logout_btn;
+    private ImageView iv_userImage;
+
+    private Button btnDoiMK, btn_my_order, logout_btn, btnHoVaTen, btnNgaySinh;
     public ProfileFragment(Context context) {
         this.context = context;
     }
@@ -62,6 +69,38 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setEvent() {
+        if (globalVariable != null) {
+            if (globalVariable.isLoggedIn())  {
+                if (globalVariable.getAuth() != null) {
+                    UserVm userVm = globalVariable.getAuth();
+                    tvHoVaTen.setText(userVm.getFirstName() + " " + userVm.getLastName());
+                    tvNgaySinh.setText(userVm.getDateOfBirth());
+                    tvGioiTinh.setText(userVm.getGender());
+                    if (userVm.getPhotoURL() != "") {
+                        Picasso.get().load(userVm.getPhotoURL()).into(iv_userImage);
+                    }
+                }
+            } else {
+                redirectToLoginPage();
+            }
+        }
+
+        btnDoiMK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redirectToProfileForm();
+            }
+        });
+
+        btnNgaySinh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redirectToProfileForm();
+            }
+        });
+
+
+
         btn_my_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +115,28 @@ public class ProfileFragment extends Fragment {
                 redirectToHomePage();
             }
         });
+
+        btnHoVaTen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redirectToProfileForm();
+            }
+        });
+
+
+
     }
+
+    private void redirectToProfileForm() {
+        Intent activityChangeIntent = new Intent(context, ProfileFormActivity.class);
+        this.startActivity(activityChangeIntent);
+    }
+
+    private void redirectToLoginPage() {
+        Intent activityChangeIntent = new Intent(context, LoginActivity.class);
+        this.startActivity(activityChangeIntent);
+    }
+
     private void redirectToHomePage() {
         Intent activityChangeIntent = new Intent(context, MainActivity.class);
         this.startActivity(activityChangeIntent);
@@ -87,9 +147,10 @@ public class ProfileFragment extends Fragment {
         tvNgaySinh = view.findViewById(R.id.tvNgaySinh);
         tvGioiTinh = view.findViewById(R.id.tvGioiTinh);
         btnDoiMK = view.findViewById(R.id.btnDoiMK);
-
         btn_my_order = view.findViewById(R.id.btn_my_order);
-
         logout_btn = view.findViewById(R.id.logout_btn);
+        btnHoVaTen = view.findViewById(R.id.btnHoVaTen);
+        btnNgaySinh = view.findViewById(R.id.btnNgaySinh);
+        iv_userImage = view.findViewById(R.id.iv_userImage);
     }
 }
