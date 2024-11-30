@@ -36,7 +36,7 @@
             tools:ignore="MissingConstraints">
 
             <ImageButton
-                android:id="@+id/user_image"
+                android:id="@+id/iv_userImage"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_below="@+id/ly1"
@@ -88,7 +88,6 @@
                         android:id="@+id/tvHoVaTen"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Nguyễn Gia Vinh"
                         android:paddingLeft="5dp"
                         android:background="@color/white"
                         android:textColor="#666666"
@@ -137,7 +136,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="27/06/2002"
                         android:id="@+id/tvNgaySinh"
                         android:paddingLeft="5dp"
                         android:background="@color/white"
@@ -187,7 +185,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Nam"
                         android:id="@+id/tvGioiTinh"
                         android:paddingLeft="5dp"
                         android:background="@color/white"

@@ -9,16 +9,25 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.elearningmobile.R;
+import com.example.elearningmobile.adapter.AnswerRecycleAdapter;
 import com.example.elearningmobile.adapter.LearningRecycleAdapter;
+import com.example.elearningmobile.adapter.StringRecycleAdapter;
 import com.example.elearningmobile.adapter.learning.CurriculumLearningRecycleAdapter;
 import com.example.elearningmobile.api.CourseApi;
+import com.example.elearningmobile.model.AnswerVM;
+import com.example.elearningmobile.model.CourseDetailType;
 import com.example.elearningmobile.model.Curriculum;
 import com.example.elearningmobile.model.LectureVm;
+import com.example.elearningmobile.model.QuestionVM;
+import com.example.elearningmobile.model.QuizVM;
 import com.example.elearningmobile.model.course.CourseLearningVm;
 import com.example.elearningmobile.model.course.CourseListGetVM;
 import com.example.elearningmobile.model.course.CourseVM;
@@ -42,10 +51,26 @@ public class LearningActivity extends AppCompatActivity {
 
     private List<SectionVM> sectionVMList = new ArrayList<>();
 
+    public Integer indexQuestion = 0;
+
+    public Integer selectedAnswerIndex = 0;
+
     private Button btn_back_to_learning;
 
     public Long curriculumId ;
     public String type;
+
+    private LinearLayout ll_quiz;
+    private TextView tv_questionText;
+    private RadioGroup rg_answers;
+
+    private RecyclerView rc_answers;
+
+    private Button btn_answer, btn_nextQuestion;
+
+    private List<AnswerVM> answers = new ArrayList<>();
+
+    private AnswerRecycleAdapter answerRecycleAdapter;
 
     public CurriculumLearningRecycleAdapter curriculumLearningRecycleAdapter;
 
@@ -59,6 +84,10 @@ public class LearningActivity extends AppCompatActivity {
 
     private void setEvent() {
 
+        answerRecycleAdapter = new AnswerRecycleAdapter(answers);
+        rc_answers.setAdapter(answerRecycleAdapter);
+        rc_answers.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+
         curriculumLearningRecycleAdapter = new CurriculumLearningRecycleAdapter(sectionVMList, this);
         rc_lectures_learning.setAdapter(curriculumLearningRecycleAdapter);
         rc_lectures_learning.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -70,12 +99,19 @@ public class LearningActivity extends AppCompatActivity {
             }
         });
 
+
+        btn_nextQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void redirectToLearning() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putLong("fragment", R.id.nav_learning);
+        bundle.putInt("fragment", R.id.nav_learning);
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -107,9 +143,14 @@ public class LearningActivity extends AppCompatActivity {
                             curriculumId = body.getCurriculumId();
                             Curriculum curriculum = getCurrentCurriculum(courseLearningVm.getSectionId(), courseLearningVm.getCurriculumId())  ;
                             if (curriculum instanceof LectureVm) {
+                                ll_quiz.setVisibility(View.GONE);
+                                vv_learning.setVisibility(View.VISIBLE);
                                 String videoUrl = ((LectureVm) curriculum).getVideoId();
 //                                String videoUrl = "https://res.cloudinary.com/di6h4mtfa/video/upload/v1721228036/202d9a90-94de-416c-89fc-1996a1360b8a.mp4";
                                 runVideo(videoUrl);
+                            } else if (curriculum instanceof QuizVM) {
+                                QuizVM quizVM = (QuizVM) curriculum;
+                                showQuestion(quizVM);
                             }
 
                             curriculumLearningRecycleAdapter.notifyDataSetChanged();
@@ -125,6 +166,16 @@ public class LearningActivity extends AppCompatActivity {
 //        }
     }
 
+    public void showQuestion(QuizVM quizVM) {
+        ll_quiz.setVisibility(View.VISIBLE);
+        vv_learning.setVisibility(View.GONE);
+        QuestionVM questionVM = quizVM.getQuestions().get(indexQuestion);
+        tv_questionText.setText(questionVM.getTitle());
+        List<AnswerVM> answerVMS = questionVM.getAnswers();
+        answers.clear();
+        answers.addAll(answerVMS);
+        answerRecycleAdapter.notifyDataSetChanged();
+    }
     public void runVideo(String url) {
         Uri uri = Uri.parse(url);
         vv_learning.setVideoURI(uri);
@@ -160,5 +211,14 @@ public class LearningActivity extends AppCompatActivity {
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(vv_learning);
         vv_learning.setMediaController(mediaController);
+
+
+        ll_quiz = findViewById(R.id.ll_quiz);
+        tv_questionText = findViewById(R.id.tv_questionText);
+        rg_answers = findViewById(R.id.rg_answers);
+        rc_answers = findViewById(R.id.rc_answers);
+        btn_answer = findViewById(R.id.btn_answer);
+        btn_nextQuestion = findViewById(R.id.btn_nextQuestion);
+
     }
 }

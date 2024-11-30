@@ -25,27 +25,6 @@
             android:maxLines="1"
             android:textSize="15sp"/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="50dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="Địa chỉ: "
-            android:ellipsize="end"
-            android:textSize="14sp"/>
-        <TextView
-            android:id="@+id/tv_order_address"
-            android:layout_marginLeft="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="asfsafasfasdfasf"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textSize="15sp"/>
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

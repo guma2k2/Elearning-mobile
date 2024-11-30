@@ -2,7 +2,9 @@ package com.example.elearningmobile.model.order;
 
 import com.example.elearningmobile.model.course.CourseGetVM;
 
-public class OrderDetailVM {
+import java.io.Serializable;
+
+public class OrderDetailVM implements Serializable {
     private Long id;
 
     private CourseGetVM course;

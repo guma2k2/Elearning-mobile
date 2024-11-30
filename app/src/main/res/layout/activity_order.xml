@@ -72,7 +72,6 @@
                 android:text="TÂT CẢ"/>
             <TextView
                 android:id="@+id/tv_order_status_pending"
-
                 android:textStyle="bold"
                 android:layout_marginLeft="20dp"
                 android:gravity="center_vertical"
@@ -80,14 +79,13 @@
                 android:layout_height="match_parent"
                 android:text="CHỜ THANH TOÁN"/>
             <TextView
-                android:id="@+id/tv_order_status_shipping"
-
+                android:id="@+id/tv_order_status_failure"
                 android:textStyle="bold"
                 android:layout_marginLeft="20dp"
                 android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="ĐANG GIAO HÀNG"/>
+                android:text="THẤT BẠI"/>
             <TextView
                 android:id="@+id/tv_order_status_success"
                 android:textStyle="bold"

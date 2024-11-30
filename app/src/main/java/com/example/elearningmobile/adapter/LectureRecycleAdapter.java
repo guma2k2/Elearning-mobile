@@ -40,8 +40,7 @@ public class LectureRecycleAdapter extends RecyclerView.Adapter<LectureRecycleAd
         holder.tv_lectureNum.setText(getLectureNum(position)+"");
         holder.tv_lectureName.setText(curriculum.getTitle());
         if (curriculum instanceof LectureVm) {
-            holder.tv_lectureDesc.setText(curriculum.getType() + " - " + ((LectureVm) curriculum).getDuration() );
-
+            holder.tv_lectureDesc.setText(curriculum.getType() + " - " + ((LectureVm) curriculum).getFormattedDuration() );
         } else {
             holder.tv_lectureDesc.setText(curriculum.getType()+"");
         }

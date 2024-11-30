@@ -29,12 +29,10 @@ import java.util.List;
 public class OrderRecycleAdapter extends RecyclerView.Adapter<OrderRecycleAdapter.OrderHolder> {
     private List<OrderVM> orders = new ArrayList<>();
     private Context context ;
-    private GlobalVariable globalVariable;
 
-    public OrderRecycleAdapter(List<OrderVM> orders, Context context, GlobalVariable globalVariable) {
+    public OrderRecycleAdapter(List<OrderVM> orders, Context context) {
         this.orders = orders;
         this.context = context;
-        this.globalVariable = globalVariable;
     }
 
     @NonNull
@@ -47,16 +45,7 @@ public class OrderRecycleAdapter extends RecyclerView.Adapter<OrderRecycleAdapte
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull OrderHolder holder, int position) {
-//        if (globalVariable != null) {
-//            User currentUser = globalVariable.getAuthUser();
-//            if (currentUser.getRole().equals("CUSTOMER")) {
-//                holder.btn_order_edit.setVisibility(View.INVISIBLE);
-//                holder.btn_order_delete.setVisibility(View.INVISIBLE);
-//            }else {
-//                holder.btn_order_edit.setVisibility(View.VISIBLE);
-//                holder.btn_order_delete.setVisibility(View.INVISIBLE);
-//            }
-//        }
+
 
         OrderVM order = orders.get(position);
         holder.tv_order_id.setText(order.getId() + "");
@@ -66,24 +55,14 @@ public class OrderRecycleAdapter extends RecyclerView.Adapter<OrderRecycleAdapte
         Long totalPrice = getTotalPriceByOrder(order);
         String totalPriceString = PriceFormatter.formatPriceInVND(totalPrice);
         holder.tv_order_totalPrice.setText(totalPriceString);
+        holder.tv_order_status.setText(order.getStatus());
         holder.btn_order_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 redirectToOrderDetailPage(order);
             }
         });
-//        holder.btn_order_edit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                redirectToOrderEditPage(order);
-//            }
-//        });
-//        holder.btn_order_delete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showConfirmDialog(order.getId());
-//            }
-//        });
+
     }
 
     private String translateStatus (OrderStatus orderStatus) {
@@ -200,18 +179,15 @@ public class OrderRecycleAdapter extends RecyclerView.Adapter<OrderRecycleAdapte
     }
 
     class OrderHolder extends RecyclerView.ViewHolder{
-        TextView tv_order_id, tv_order_address, tv_order_createdAt, tv_order_status, tv_order_totalPrice;
+        TextView tv_order_id, tv_order_createdAt, tv_order_status, tv_order_totalPrice;
         Button btn_order_view, btn_order_edit, btn_order_delete;
         public OrderHolder(@NonNull View itemView) {
             super(itemView);
             tv_order_id = itemView.findViewById(R.id.tv_order_id);
-            tv_order_address = itemView.findViewById(R.id.tv_order_address);
             tv_order_createdAt = itemView.findViewById(R.id.tv_order_createdAt);
             tv_order_status = itemView.findViewById(R.id.tv_order_status);
             tv_order_totalPrice = itemView.findViewById(R.id.tv_order_totalPrice);
             btn_order_view = itemView.findViewById(R.id.btn_order_view);
-//            btn_order_edit = itemView.findViewById(R.id.btn_order_edit);
-//            btn_order_delete = itemView.findViewById(R.id.btn_order_delete);
         }
     }
 }
