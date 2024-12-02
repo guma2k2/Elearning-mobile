@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -49,11 +50,15 @@ public class LearningActivity extends AppCompatActivity {
 
     private CourseLearningVm courseLearningVm;
 
+    public boolean showingAnswer = false;
+
     private List<SectionVM> sectionVMList = new ArrayList<>();
 
     public Integer indexQuestion = 0;
 
     public Integer selectedAnswerIndex = 0;
+
+    public int selectedPosition = -1;
 
     private Button btn_back_to_learning;
 
@@ -61,16 +66,16 @@ public class LearningActivity extends AppCompatActivity {
     public String type;
 
     private LinearLayout ll_quiz;
-    private TextView tv_questionText;
+    private TextView tv_questionText ,tv_correctAnswer;
     private RadioGroup rg_answers;
 
     private RecyclerView rc_answers;
 
-    private Button btn_answer, btn_nextQuestion;
+    public Button btn_answer, btn_nextQuestion;
 
     private List<AnswerVM> answers = new ArrayList<>();
 
-    private AnswerRecycleAdapter answerRecycleAdapter;
+    public AnswerRecycleAdapter answerRecycleAdapter;
 
     public CurriculumLearningRecycleAdapter curriculumLearningRecycleAdapter;
 
@@ -84,7 +89,15 @@ public class LearningActivity extends AppCompatActivity {
 
     private void setEvent() {
 
-        answerRecycleAdapter = new AnswerRecycleAdapter(answers);
+        Curriculum curriculum = getCurrentCurriculum(curriculumId, type);
+        if (curriculum instanceof QuizVM) {
+            int maxQuestion = ((QuizVM) curriculum).getQuestions().size();
+            if (indexQuestion + 2 == maxQuestion) {
+                btn_nextQuestion.setText("Làm lại");
+            }
+        }
+
+        answerRecycleAdapter = new AnswerRecycleAdapter(answers, this);
         rc_answers.setAdapter(answerRecycleAdapter);
         rc_answers.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
@@ -99,11 +112,67 @@ public class LearningActivity extends AppCompatActivity {
             }
         });
 
+        btn_answer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedPosition == -1) {
+                    Toast.makeText(getApplicationContext(), "Vui lòng chọn câu trả lời", Toast.LENGTH_SHORT).show();
+                } else {
+                    showingAnswer = true;
+                    Curriculum curriculum = getCurrentCurriculum(curriculumId, type);
+                    if (curriculum instanceof QuizVM) {
+                        QuestionVM questionVM = ((QuizVM) curriculum).getQuestions().get(indexQuestion);
+                        for (AnswerVM answerVM : questionVM.getAnswers()) {
+                            if (answerVM.isCorrect() && answerVM.getReason() != null){
+                                tv_correctAnswer.setVisibility(View.VISIBLE);
+                                tv_correctAnswer.setText(Html.fromHtml(answerVM.getReason()));
+
+                            }
+                        }
+                    }
+                    answerRecycleAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
 
         btn_nextQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                tv_correctAnswer.setVisibility(View.GONE);
+                Curriculum curriculum = getCurrentCurriculum(curriculumId, type);
+                if (curriculum instanceof QuizVM) {
+                    int maxQuestion = ((QuizVM) curriculum).getQuestions().size();
+                    if (indexQuestion + 2 > maxQuestion) {
+                        btn_nextQuestion.setText("Câu tiếp theo");
+                        showingAnswer = false;
+                        selectedPosition = -1;
+                        indexQuestion = 0;
+                        QuestionVM questionVM = ((QuizVM) curriculum).getQuestions().get(indexQuestion);
+                        tv_questionText.setText(String.format("Câu %d:", indexQuestion + 1) + Html.fromHtml(questionVM.getTitle()));
+                        List<AnswerVM> answerVMS = questionVM.getAnswers();
+                        answers.clear();
+                        answers.addAll(answerVMS);
+                        answerRecycleAdapter.notifyDataSetChanged();
+                    }else {
+                        if (!showingAnswer) {
+                            Toast.makeText(getApplicationContext(), "Vui lòng trả lời câu hỏi trước", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (indexQuestion + 2 == maxQuestion) {
+                                btn_nextQuestion.setText("Làm lại");
+                            }
+                            showingAnswer = false;
+                            selectedPosition = -1;
+                            indexQuestion = indexQuestion + 1;
+                            QuestionVM questionVM = ((QuizVM) curriculum).getQuestions().get(indexQuestion);
+                            tv_questionText.setText(String.format("Câu %d:", indexQuestion + 1) + Html.fromHtml(questionVM.getTitle()));
+                            List<AnswerVM> answerVMS = questionVM.getAnswers();
+                            answers.clear();
+                            answers.addAll(answerVMS);
+                            answerRecycleAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
             }
         });
     }
@@ -124,14 +193,11 @@ public class LearningActivity extends AppCompatActivity {
 //        if (extras != null) {
 //            String slug = extras.getString("slug");
             String slug = "my-course-is-number-one";
-
 //            String token = globalVariable.getAccess_token();
-
-            String token = "eyJhbGciOiJIUzI1NiJ9.eyJzY29wZXMiOlsiUk9MRV9TVFVERU5UIl0sInN1YiI6Im4yMGRjY24xNTNAc3R1ZGVudC5wdGl0aGNtLmVkdS52biIsImlhdCI6MTczMDc3MTU4MywiZXhwIjoxNzMyMDY3NTgzfQ.GzxhRkWFSbuDdLrb2e8bR5oe2bRhEy2HhXjDyGVMQN4";
+            String token = "eyJhbGciOiJIUzI1NiJ9.eyJzY29wZXMiOlsiUk9MRV9TVFVERU5UIl0sInN1YiI6Im4yMGRjY24xNTNAc3R1ZGVudC5wdGl0aGNtLmVkdS52biIsImlhdCI6MTczMzE0OTkwOCwiZXhwIjoxNzM0NDQ1OTA4fQ.tEFUtLRsHAVhl_MLLjwyON3Fz3kXuphYiTEip1ilkz0";
 
             String bearerToken = "Bearer " + token;
             if (slug != null && slug != "") {
-
                 CourseApi.courseApi.getCoursesBySlug(slug, bearerToken).enqueue(new Callback<CourseLearningVm>() {
                     @Override
                     public void onResponse(Call<CourseLearningVm> call, Response<CourseLearningVm> response) {
@@ -141,12 +207,11 @@ public class LearningActivity extends AppCompatActivity {
                             sectionVMList.addAll(body.getCourse().getSections());
                             type = body.getType();
                             curriculumId = body.getCurriculumId();
-                            Curriculum curriculum = getCurrentCurriculum(courseLearningVm.getSectionId(), courseLearningVm.getCurriculumId())  ;
+                            Curriculum curriculum = getCurrentCurriculum(courseLearningVm.getSectionId(), courseLearningVm.getCurriculumId(), body.getType())  ;
                             if (curriculum instanceof LectureVm) {
                                 ll_quiz.setVisibility(View.GONE);
                                 vv_learning.setVisibility(View.VISIBLE);
                                 String videoUrl = ((LectureVm) curriculum).getVideoId();
-//                                String videoUrl = "https://res.cloudinary.com/di6h4mtfa/video/upload/v1721228036/202d9a90-94de-416c-89fc-1996a1360b8a.mp4";
                                 runVideo(videoUrl);
                             } else if (curriculum instanceof QuizVM) {
                                 QuizVM quizVM = (QuizVM) curriculum;
@@ -167,34 +232,52 @@ public class LearningActivity extends AppCompatActivity {
     }
 
     public void showQuestion(QuizVM quizVM) {
+        showingAnswer = false;
+        tv_correctAnswer.setVisibility(View.GONE);
         ll_quiz.setVisibility(View.VISIBLE);
         vv_learning.setVisibility(View.GONE);
         QuestionVM questionVM = quizVM.getQuestions().get(indexQuestion);
-        tv_questionText.setText(questionVM.getTitle());
+        tv_questionText.setText(String.format("Câu %d:", indexQuestion + 1) + Html.fromHtml(questionVM.getTitle()));
         List<AnswerVM> answerVMS = questionVM.getAnswers();
         answers.clear();
         answers.addAll(answerVMS);
         answerRecycleAdapter.notifyDataSetChanged();
     }
     public void runVideo(String url) {
+        tv_correctAnswer.setVisibility(View.GONE);
+        ll_quiz.setVisibility(View.GONE);
+        vv_learning.setVisibility(View.VISIBLE);
         Uri uri = Uri.parse(url);
         vv_learning.setVideoURI(uri);
         vv_learning.requestFocus();
         vv_learning.start();
     }
 
-    private Curriculum getCurrentCurriculum(Long sectionId, Long curriculumId) {
+    private Curriculum getCurrentCurriculum(Long sectionId, Long curriculumId, String type) {
         for (SectionVM section : sectionVMList) {
             if (section.getId().equals(sectionId)) {
                 // Iterate over the curriculum list in the found section
                 for (Curriculum curriculum : section.getCurriculums()) {
-                    if (curriculum.getId().equals(curriculumId)) {
+                    if (curriculum.getId().equals(curriculumId) && curriculum.getType().name().equals(type)) {
                         return curriculum;
                     }
                 }
             }
         }
         // Return null if no matching curriculum is found
+        return null;
+    }
+
+
+    private Curriculum getCurrentCurriculum(Long curriculumId, String type) {
+        for (SectionVM section : sectionVMList) {
+                // Iterate over the curriculum list in the found section
+            for (Curriculum curriculum : section.getCurriculums()) {
+                if (curriculum.getId().equals(curriculumId) && curriculum.getType().name().equals(type)) {
+                    return curriculum;
+                }
+            }
+        }
         return null;
     }
 
@@ -219,6 +302,6 @@ public class LearningActivity extends AppCompatActivity {
         rc_answers = findViewById(R.id.rc_answers);
         btn_answer = findViewById(R.id.btn_answer);
         btn_nextQuestion = findViewById(R.id.btn_nextQuestion);
-
+        tv_correctAnswer = findViewById(R.id.tv_correctAnswer);
     }
 }
