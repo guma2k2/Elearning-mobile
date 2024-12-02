@@ -63,7 +63,7 @@ public class OrderActivity extends AppCompatActivity {
 
             String token = globalVariable.getAccess_token();
             String bearerToken = "Bearer " + token;
-            if (currentStatus.equals(all)) {
+            if (!currentStatus.equals(all)) {
                 OrderApi.orderApi.getOrdersByUserAndStatus(bearerToken, currentStatus).enqueue(new Callback<List<OrderVM>>() {
                     @Override
                     public void onResponse(Call<List<OrderVM>> call, Response<List<OrderVM>> response) {

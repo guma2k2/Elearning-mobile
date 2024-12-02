@@ -132,136 +132,7 @@ public class CourseDetailActivity extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                builder.setTitle("Xác nhận thanh toán")
-                        .setMessage("Bạn có muốn thực hiện thanh toán này?")
-                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-
-                                if (globalVariable.isLoggedIn()) {
-                                    String jwtToken = globalVariable.getAccess_token();
-                                    String bearerToken = "Bearer " + jwtToken;
-
-                                    OrderPostDto orderPostDto = new OrderPostDto();
-
-                                    List<OrderDetailPostDto> orderDetailPostDtos = new ArrayList<>();
-                                    OrderDetailPostDto orderDetailPostDto = new OrderDetailPostDto();
-                                    orderDetailPostDto.setPrice(course.getPrice());
-                                    orderDetailPostDto.setCourseId(course.getId());
-                                    orderDetailPostDtos.add(orderDetailPostDto);
-
-                                    orderPostDto.setOrderDetails(orderDetailPostDtos);
-
-                                    OrderApi.orderApi.createOrder(bearerToken, orderPostDto).enqueue(new Callback<Long>() {
-                                        @Override
-                                        public void onResponse(Call<Long> call, Response<Long> response) {
-                                            if (response.isSuccessful()) {
-                                                orderId = response.body();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<Long> call, Throwable t) {
-
-                                        }
-                                    });
-
-
-                                    CreateOrder orderApi = new CreateOrder();
-
-                                    try {
-                                        JSONObject data = orderApi.createOrder(course.getPrice().toString());
-                                        String code = data.getString("return_code");
-
-                                        if (code.equals("1")) {
-                                            String token = data.getString("zp_trans_token");
-                                            ZaloPaySDK.getInstance().payOrder(CourseDetailActivity.this, token, "demozpdk://app", new PayOrderListener() {
-                                                @Override
-                                                public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
-
-                                                    PaymentPostVM paymentPostVM = new PaymentPostVM();
-                                                    paymentPostVM.setAmount(course.getPrice());
-                                                    paymentPostVM.setBankCode(transactionId);
-                                                    paymentPostVM.setBankTranNo(transToken);
-                                                    paymentPostVM.setCardType("Zalopay");
-                                                    if (orderId != null) {
-                                                        paymentPostVM.setOrderId(orderId);
-                                                    }
-                                                    paymentPostVM.setPayDate(DateFormatter.getCurrentDateTime());
-
-                                                    PaymentApi.paymentApi.createPaymentSuccess(bearerToken, paymentPostVM).enqueue(new Callback<Void>() {
-                                                        @Override
-                                                        public void onResponse(Call<Void> call, Response<Void> response) {
-                                                            if (response.isSuccessful()) {
-                                                                redirectToResult(200, "Chúc mừng bạn đã thanh toán thành công");
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onFailure(Call<Void> call, Throwable t) {
-
-                                                        }
-                                                    });
-
-
-                                                }
-
-                                                @Override
-                                                public void onPaymentCanceled(String zpTransToken, String appTransID) {
-                                                   redirectToResult(400, "Thanh toán thất bại");
-                                                   OrderApi.orderApi.updateOrderStatus(bearerToken, orderId, "FAILURE").enqueue(new Callback<Void>() {
-                                                       @Override
-                                                       public void onResponse(Call<Void> call, Response<Void> response) {
-
-                                                       }
-
-                                                       @Override
-                                                       public void onFailure(Call<Void> call, Throwable t) {
-
-                                                       }
-                                                   });
-                                                }
-
-                                                @Override
-                                                public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String appTransID) {
-                                                    redirectToResult(400, zaloPayError.toString());
-
-                                                    OrderApi.orderApi.updateOrderStatus(bearerToken, orderId, "FAILURE").enqueue(new Callback<Void>() {
-                                                        @Override
-                                                        public void onResponse(Call<Void> call, Response<Void> response) {
-
-                                                        }
-
-                                                        @Override
-                                                        public void onFailure(Call<Void> call, Throwable t) {
-
-                                                        }
-                                                    });
-                                                }
-                                            });
-                                        }
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                } else {
-                                    redirectToLoginPage();
-                                }
-
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Handle "Cancel" button click
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
-
+                showConfirmPayment(globalVariable);
             }
         });
 
@@ -342,6 +213,139 @@ public class CourseDetailActivity extends AppCompatActivity {
                 redirectToHomePage();
             }
         });
+    }
+
+    private void showConfirmPayment(GlobalVariable globalVariable) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Xác nhận thanh toán")
+                .setMessage("Bạn có muốn thực hiện thanh toán này?")
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (globalVariable.isLoggedIn()) {
+                            String jwtToken = globalVariable.getAccess_token();
+                            String bearerToken = "Bearer " + jwtToken;
+
+                            OrderPostDto orderPostDto = new OrderPostDto();
+
+                            List<OrderDetailPostDto> orderDetailPostDtos = new ArrayList<>();
+                            OrderDetailPostDto orderDetailPostDto = new OrderDetailPostDto();
+                            orderDetailPostDto.setPrice(course.getPrice());
+                            orderDetailPostDto.setCourseId(course.getId());
+                            orderDetailPostDtos.add(orderDetailPostDto);
+
+                            orderPostDto.setOrderDetails(orderDetailPostDtos);
+
+                            OrderApi.orderApi.createOrder(bearerToken, orderPostDto).enqueue(new Callback<Long>() {
+                                @Override
+                                public void onResponse(Call<Long> call, Response<Long> response) {
+                                    if (response.isSuccessful()) {
+                                        orderId = response.body();
+                                        openZaloPay(bearerToken);
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Long> call, Throwable t) {
+                                    Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT);
+                                }
+                            });
+
+
+
+                        } else {
+                            redirectToLoginPage();
+                        }
+
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Handle "Cancel" button click
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    private void openZaloPay(String bearerToken) {
+        CreateOrder orderApi = new CreateOrder();
+
+        try {
+            JSONObject data = orderApi.createOrder(course.getPrice().toString());
+            String code = data.getString("return_code");
+
+            if (code.equals("1")) {
+                String token = data.getString("zp_trans_token");
+                ZaloPaySDK.getInstance().payOrder(CourseDetailActivity.this, token, "demozpdk://app", new PayOrderListener() {
+                    @Override
+                    public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
+                        PaymentPostVM paymentPostVM = new PaymentPostVM();
+                        paymentPostVM.setAmount(course.getPrice());
+                        paymentPostVM.setBankCode(transactionId);
+                        paymentPostVM.setBankTranNo(transToken);
+                        paymentPostVM.setCardType("Zalopay");
+                        if (orderId != null) {
+                            paymentPostVM.setOrderId(orderId);
+                        }
+                        paymentPostVM.setPayDate(DateFormatter.getCurrentDateTime());
+
+                        PaymentApi.paymentApi.createPaymentSuccess(bearerToken, paymentPostVM).enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                if (response.isSuccessful()) {
+                                    redirectToResult(200, "Chúc mừng bạn đã thanh toán thành công");
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+
+                            }
+                        });
+
+
+                    }
+
+                    @Override
+                    public void onPaymentCanceled(String zpTransToken, String appTransID) {
+                        redirectToResult(400, "Thanh toán thất bại");
+                        OrderApi.orderApi.updateOrderStatus(bearerToken, orderId, "FAILURE").enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String appTransID) {
+                        redirectToResult(400, zaloPayError.toString());
+
+                        OrderApi.orderApi.updateOrderStatus(bearerToken, orderId, "FAILURE").enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                });
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -471,7 +475,7 @@ public class CourseDetailActivity extends AppCompatActivity {
 
 
 
-                            if (course.getRequirements().length == 0 ) {
+                            if (course.getRequirements() == null || course.getRequirements().length == 0) {
                                 tv_requirementTitle.setVisibility(View.GONE);
                             }else {
                                 tv_requirementTitle.setVisibility(View.VISIBLE);
@@ -483,7 +487,7 @@ public class CourseDetailActivity extends AppCompatActivity {
                                 requirements.addAll(requirementList);
                             }
 
-                            if (course.getObjectives().length == 0 ) {
+                            if (course.getRequirements() == null || course.getObjectives().length == 0  ) {
                                 tv_courseObjectiveTitle.setVisibility(View.GONE);
                             }else {
                                 tv_courseObjectiveTitle.setVisibility(View.VISIBLE);

@@ -43,24 +43,14 @@
                     android:id="@+id/tv_category_home"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Categories"
+                    android:text="Danh mục"
                     android:textStyle="bold"
                     android:textSize="15dp"
                     android:layout_marginBottom="5dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" />
-                <TextView
-                    android:id="@+id/tv_seeAllCategories_home"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="See all"
-                    android:textStyle="bold"
-                    android:textSize="15dp"
-                    android:layout_marginBottom="5dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -78,7 +68,7 @@
                 android:id="@+id/tv_home_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Course by category"
+                android:text="Các khóa học theo danh mục"
                 android:textStyle="bold"
                 android:textSize="15dp"
                 android:layout_marginLeft="10dp"

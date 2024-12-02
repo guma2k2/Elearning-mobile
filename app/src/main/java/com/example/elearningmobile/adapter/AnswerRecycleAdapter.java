@@ -1,5 +1,9 @@
 package com.example.elearningmobile.adapter;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Color;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.elearningmobile.R;
+import com.example.elearningmobile.activity.LearningActivity;
 import com.example.elearningmobile.model.AnswerVM;
 import com.example.elearningmobile.model.CourseDetailType;
 
@@ -20,9 +25,13 @@ public class AnswerRecycleAdapter extends RecyclerView.Adapter<AnswerRecycleAdap
 
     private List<AnswerVM> answerVMS;
 
-    public AnswerRecycleAdapter(List<AnswerVM> answerVMS) {
+    private Context context ;
+
+    public AnswerRecycleAdapter(List<AnswerVM> answerVMS, Context context) {
         this.answerVMS = answerVMS;
+        this.context = context;
     }
+
 
     @NonNull
     @Override
@@ -31,10 +40,30 @@ public class AnswerRecycleAdapter extends RecyclerView.Adapter<AnswerRecycleAdap
         return new AnswerRecycleAdapter.AnswerHolder(view);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
-    public void onBindViewHolder(@NonNull AnswerRecycleAdapter.AnswerHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AnswerRecycleAdapter.AnswerHolder holder, @SuppressLint("RecyclerView") int position) {
         AnswerVM answerVM = answerVMS.get(position);
-        holder.rb_answerText.setText(answerVM.getAnswerText());
+        holder.rb_answerText.setText(Html.fromHtml(answerVM.getAnswerText()));
+
+        if (context instanceof LearningActivity) {
+            holder.rb_answerText.setChecked(position == ((LearningActivity) context).selectedPosition);
+            if (((LearningActivity) context).showingAnswer && ((LearningActivity) context).selectedPosition == position) {
+                if (answerVM.isCorrect() ) {
+                    holder.rb_answerText.setBackgroundColor(Color.GREEN);
+                } else {
+                    holder.rb_answerText.setBackgroundColor(Color.RED);
+                }
+            } else {
+                holder.rb_answerText.setBackgroundColor(Color.TRANSPARENT);
+            }
+        }
+
+        holder.rb_answerText.setOnClickListener(v -> {
+            ((LearningActivity) context).showingAnswer = false;
+            ((LearningActivity) context).selectedPosition = position; // Update selected position
+            ((LearningActivity) context).answerRecycleAdapter.notifyDataSetChanged(); // Refresh the RecyclerView to update UI
+        });
     }
 
     @Override

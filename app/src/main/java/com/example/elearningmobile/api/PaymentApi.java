@@ -31,6 +31,6 @@ public interface PaymentApi {
             .build().
             create(PaymentApi.class);
 
-    @POST("/vn-pay-success")
+    @POST("/api/v1/payments/vn-pay-success")
     Call<Void> createPaymentSuccess(@Header("Authorization") String token, @Body PaymentPostVM paymentPostVM);
 }

@@ -59,7 +59,7 @@ public class LectureLearningRecycleAdapter extends RecyclerView.Adapter<LectureL
             }
         }
         if (curriculum instanceof LectureVm) {
-            holder.tv_lectureDesc_learning.setText(curriculum.getType() + " - " + ((LectureVm) curriculum).getDuration() );
+            holder.tv_lectureDesc_learning.setText(curriculum.getType() + " - " + ((LectureVm) curriculum).getFormattedDuration() );
         } else {
             holder.tv_lectureDesc_learning.setText(curriculum.getType()+"");
         }
@@ -77,6 +77,11 @@ public class LectureLearningRecycleAdapter extends RecyclerView.Adapter<LectureL
                         ((LearningActivity) context).type = curriculum.getType().name();
                         ((LearningActivity) context).curriculumLearningRecycleAdapter.notifyDataSetChanged();
                     } else if (curriculum instanceof QuizVM) {
+                        int maxQuestion = ((QuizVM) curriculum).getQuestions().size();
+                        if (((LearningActivity) context).indexQuestion + 1 == maxQuestion) {
+                            ((LearningActivity) context).btn_nextQuestion.setText("Làm lại");
+                        }
+                        ((LearningActivity) context).selectedPosition = -1;
                         ((LearningActivity) context).curriculumId = curriculum.getId();
                         ((LearningActivity) context).type = curriculum.getType().name();
                         ((LearningActivity) context).indexQuestion = 0;

@@ -16,6 +16,7 @@ import com.example.elearningmobile.R;
 import com.example.elearningmobile.adapter.OrderDetailRecycleAdapter;
 import com.example.elearningmobile.model.order.OrderDetailVM;
 import com.example.elearningmobile.model.order.OrderVM;
+import com.example.elearningmobile.ultity.PriceFormatter;
 
 import java.util.List;
 
@@ -43,8 +44,8 @@ public class OrderDetailActivity extends AppCompatActivity {
         if (order != null) {
             tv_orderDetail_order_id.setText(order.getId() + "");
             tv_orderDetail_order_createdAt.setText(order.getCreatedAt());
-            tv_orderDetail_order_status.setText(order.getStatus());
-            tv_order_detail_order_totalPrice.setText(order.getTotalPrice()+"");
+            tv_orderDetail_order_status.setText(convertOrderStatus(order.getStatus()));
+            tv_order_detail_order_totalPrice.setText(PriceFormatter.formatPriceInVND(order.getTotalPrice()));
             List<OrderDetailVM> orderDetails = order.getOrderDetails();
             orderDetailRecycleAdapter = new OrderDetailRecycleAdapter(orderDetails);
             rc_order_detail.setAdapter(orderDetailRecycleAdapter);
@@ -63,6 +64,16 @@ public class OrderDetailActivity extends AppCompatActivity {
 
 
 
+    private String convertOrderStatus (String status) {
+        if (status.equals("PENDING")) {
+            return "ĐANG TIẾN HÀNH";
+        } else if (status.equals("SUCCESS")) {
+            return "THÀNH CÔNG";
+        } else if (status.equals("FAILURE")){
+            return "THẤT BẠI";
+        }
+        return "";
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     private void setControl() {

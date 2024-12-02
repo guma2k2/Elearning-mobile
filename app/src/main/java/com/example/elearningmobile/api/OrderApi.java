@@ -44,7 +44,7 @@ public interface OrderApi {
     @GET("user/status/{status}")
     Call<List<OrderVM>> getOrdersByUserAndStatus(@Header("Authorization") String token, @Path("status") String status);
 
-    @POST("/")
+    @POST("/api/v1/orders")
     Call<Long> createOrder(@Header("Authorization") String token, @Body OrderPostDto orderPostDto);
 
     @POST("/{orderId}/status/{orderStatus}")

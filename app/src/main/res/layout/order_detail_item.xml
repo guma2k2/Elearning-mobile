@@ -33,7 +33,7 @@
                 android:layout_height="match_parent">
                 <TextView
                     android:ellipsize="end"
-                    android:maxLines="1"
+                    android:maxLines="4"
                     android:id="@+id/tv_courseTitle_orderDetail"
                     android:text="Product name"
                     android:layout_gravity="top"
