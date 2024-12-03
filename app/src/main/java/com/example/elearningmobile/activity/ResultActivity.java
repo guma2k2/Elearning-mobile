@@ -2,7 +2,9 @@ package com.example.elearningmobile.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -40,6 +42,21 @@ public class ResultActivity extends AppCompatActivity {
 
             tv_statusText.setText(message);
         }
+
+        btn_returnHome_result.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redirectToHomePage();
+            }
+        });
+    }
+
+    private void redirectToHomePage() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putLong("fragment", R.id.nav_home);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     private void setControl() {
