@@ -39,6 +39,6 @@ public interface AuthApi {
     @POST("register")
     Call<AuthenticationVm> register(@Body RegistrationPostVm registrationPostVm);
 
-    @POST("/outbound/authentication/mobile")
+    @POST("/api/v1/auth/outbound/authentication/mobile")
     Call<AuthenticationVm> outboundAuthenticate(@Body OutboundUserRequest outboundUserRequest);
 }

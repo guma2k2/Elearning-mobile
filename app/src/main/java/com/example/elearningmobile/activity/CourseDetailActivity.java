@@ -117,8 +117,8 @@ public class CourseDetailActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
-
         GlobalVariable globalVariable = (GlobalVariable) getApplication();
+
         StrictMode.ThreadPolicy policy = new
                 StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -586,15 +586,15 @@ public class CourseDetailActivity extends AppCompatActivity {
         tv_totalSections_courseDetail = findViewById(R.id.tv_totalSections_courseDetail);
         tv_totalLectures_courseDetail = findViewById(R.id.tv_totalLectures_courseDetail);
         tv_totalDurationCurriculum_courseDetail = findViewById(R.id.tv_totalDurationCurriculum_courseDetail);
-
-
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             courseId = extras.getLong("courseId");
         } else {
             courseId = null;
         }
+
+
+
     }
 
     @Override
