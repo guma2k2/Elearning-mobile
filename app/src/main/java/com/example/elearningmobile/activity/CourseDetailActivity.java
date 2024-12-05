@@ -66,6 +66,8 @@ import vn.zalopay.sdk.ZaloPaySDK;
 import vn.zalopay.sdk.listeners.PayOrderListener;
 
 public class CourseDetailActivity extends AppCompatActivity {
+    public CourseDetailActivity() {
+    }
 
     TextView tv_courseTitle_courseDetail, tv_courseDesc_courseDetail, tv_courseRating_courseDetail
             ,tv_coursePrice_courseDetail, tv_ratingCount_courseDetail, tv_courseCountInstructor_courseDetail
@@ -371,7 +373,7 @@ public class CourseDetailActivity extends AppCompatActivity {
 
 
     private void redirectToHomePage() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putLong("fragment", R.id.nav_home);
         intent.putExtras(bundle);
@@ -589,12 +591,10 @@ public class CourseDetailActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             courseId = extras.getLong("courseId");
+            System.out.println(courseId);
         } else {
             courseId = null;
         }
-
-
-
     }
 
     @Override

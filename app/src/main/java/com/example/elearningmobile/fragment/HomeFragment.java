@@ -69,12 +69,12 @@ public class HomeFragment extends Fragment {
         rc_category_home.setLayoutManager(gridLayoutManager);
         rc_category_home.setAdapter(categoryHomeRecycleAdapter);
 
-        courseCategoryRecycleAdapter = new CourseHomeRecycleAdapter(coursesByCategory, getActivity());
+        courseCategoryRecycleAdapter = new CourseHomeRecycleAdapter(coursesByCategory, context);
         rc_courses_category.setAdapter(courseCategoryRecycleAdapter);
         rc_courses_category.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
 
 
-        courseBestSellerRecycleAdapter = new CourseHomeRecycleAdapter(coursesBestSeller, getActivity());
+        courseBestSellerRecycleAdapter = new CourseHomeRecycleAdapter(coursesBestSeller, context);
         rc_top_courses.setAdapter(courseBestSellerRecycleAdapter);
         rc_top_courses.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
 
