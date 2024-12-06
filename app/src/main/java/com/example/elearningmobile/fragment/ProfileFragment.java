@@ -23,6 +23,8 @@ import com.example.elearningmobile.model.UserVm;
 import com.example.elearningmobile.variable.GlobalVariable;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 
 public class ProfileFragment extends Fragment {
 
@@ -76,7 +78,7 @@ public class ProfileFragment extends Fragment {
                     tvHoVaTen.setText(userVm.getFirstName() + " " + userVm.getLastName());
                     tvNgaySinh.setText(userVm.getDateOfBirth());
                     tvGioiTinh.setText(userVm.getGender());
-                    if (userVm.getPhotoURL() != "") {
+                    if (userVm.getPhotoURL() != null && !Objects.equals(userVm.getPhotoURL(), "")) {
                         Picasso.get().load(userVm.getPhotoURL()).into(iv_userImage);
                     }
                 }
