@@ -45,6 +45,7 @@ import com.example.elearningmobile.model.order.OrderDetailPostDto;
 import com.example.elearningmobile.model.order.OrderPostDto;
 import com.example.elearningmobile.model.review.ReviewVM;
 import com.example.elearningmobile.model.section.SectionVM;
+import com.example.elearningmobile.ultity.DataManager;
 import com.example.elearningmobile.ultity.DateFormatter;
 import com.example.elearningmobile.ultity.PriceFormatter;
 import com.example.elearningmobile.variable.GlobalVariable;
@@ -66,8 +67,6 @@ import vn.zalopay.sdk.ZaloPaySDK;
 import vn.zalopay.sdk.listeners.PayOrderListener;
 
 public class CourseDetailActivity extends AppCompatActivity {
-    public CourseDetailActivity() {
-    }
 
     TextView tv_courseTitle_courseDetail, tv_courseDesc_courseDetail, tv_courseRating_courseDetail
             ,tv_coursePrice_courseDetail, tv_ratingCount_courseDetail, tv_courseCountInstructor_courseDetail
@@ -286,7 +285,9 @@ public class CourseDetailActivity extends AppCompatActivity {
                         OrderApi.orderApi.updateOrderStatus(bearerToken, orderId, "SUCCESS").enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
+                                if (response.isSuccessful()) {
 
+                                }
                             }
 
                             @Override
@@ -375,7 +376,7 @@ public class CourseDetailActivity extends AppCompatActivity {
     private void redirectToHomePage() {
         Intent intent = new Intent(this, MainActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putLong("fragment", R.id.nav_home);
+        bundle.putInt("fragment", R.id.nav_home);
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -388,6 +389,7 @@ public class CourseDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        courseId = DataManager.getCourseId();
         setCourse();
         setReviews();
     }
@@ -490,8 +492,10 @@ public class CourseDetailActivity extends AppCompatActivity {
 
                             if (course.getRequirements() == null || course.getRequirements().length == 0) {
                                 tv_requirementTitle.setVisibility(View.GONE);
+                                rc_requirements_courseDetail.setVisibility(View.GONE);
                             }else {
                                 tv_requirementTitle.setVisibility(View.VISIBLE);
+                                rc_requirements_courseDetail.setVisibility(View.VISIBLE);
                                 requirements.clear();
                                 List<String> requirementList = new ArrayList<>();
                                 for(String value : course.getRequirements()) {
@@ -500,10 +504,12 @@ public class CourseDetailActivity extends AppCompatActivity {
                                 requirements.addAll(requirementList);
                             }
 
-                            if (course.getRequirements() == null || course.getObjectives().length == 0  ) {
+                            if (course.getObjectives() == null || course.getObjectives().length == 0  ) {
                                 tv_courseObjectiveTitle.setVisibility(View.GONE);
+                                rc_objectives_courseDetail.setVisibility(View.GONE);
                             }else {
                                 tv_courseObjectiveTitle.setVisibility(View.VISIBLE);
+                                rc_objectives_courseDetail.setVisibility(View.VISIBLE);
                                 objectives.clear();
                                 List<String> values = new ArrayList<>();
                                 for(String value : course.getObjectives()) {
@@ -516,6 +522,7 @@ public class CourseDetailActivity extends AppCompatActivity {
 
 
                         List<SectionVM> sectionVMList = body.getSections();
+                        sectionVMS.clear();
                         sectionVMS.addAll(sectionVMList);
                         curriculumRecycleAdapter.notifyDataSetChanged();
                         objectiveRecycleAdapter.notifyDataSetChanged();
@@ -588,13 +595,13 @@ public class CourseDetailActivity extends AppCompatActivity {
         tv_totalSections_courseDetail = findViewById(R.id.tv_totalSections_courseDetail);
         tv_totalLectures_courseDetail = findViewById(R.id.tv_totalLectures_courseDetail);
         tv_totalDurationCurriculum_courseDetail = findViewById(R.id.tv_totalDurationCurriculum_courseDetail);
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            courseId = extras.getLong("courseId");
-            System.out.println(courseId);
-        } else {
-            courseId = null;
-        }
+//        Bundle extras = getIntent().getExtras();
+//        if (extras != null) {
+//            courseId = extras.getLong("courseId");
+//            System.out.println(courseId);
+//        } else {
+//            courseId = null;
+//        }
     }
 
     @Override

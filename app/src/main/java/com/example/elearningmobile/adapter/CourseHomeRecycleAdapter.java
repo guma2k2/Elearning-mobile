@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.example.elearningmobile.R;
 import com.example.elearningmobile.activity.CourseDetailActivity;
 import com.example.elearningmobile.model.course.CourseListGetVM;
+import com.example.elearningmobile.ultity.DataManager;
 import com.example.elearningmobile.ultity.PriceFormatter;
 import com.squareup.picasso.Picasso;
 
@@ -55,13 +56,15 @@ public class CourseHomeRecycleAdapter extends RecyclerView.Adapter<CourseHomeRec
         holder.ll_courseHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, CourseDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putLong("courseId", courseListGetVM.getId());
-                intent.putExtras(bundle);
-                context.startActivity(intent);
+               redirectToCourseDetail(courseListGetVM);
             }
         });
+    }
+
+    private void redirectToCourseDetail(CourseListGetVM courseListGetVM) {
+        Intent intent = new Intent(context, CourseDetailActivity.class);
+        DataManager.setCourseId(courseListGetVM.getId());
+        context.startActivity(intent);
     }
 
     @Override
